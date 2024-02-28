@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     //Assigns references to the player gameobject and rigidbody
     private GameObject player;
     private Rigidbody2D playerRB;
+    [SerializeField] BoxCollider2D feet;
 
     //Variables that affect the feel of the player movement
     [SerializeField] private float topSpeed = 1f;
@@ -24,6 +25,11 @@ public class PlayerMovement : MonoBehaviour
     private bool isDashing = false;
     private float dashTime = 0;
     private bool dashDirectionRight = true;
+    private bool canDoubleJump;
+    bool IsGrounded()
+    {
+        return Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 0.51f), Vector2.down, 0.05f);
+    }
 
     [SerializeField] private float gravity = -9.81f; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
     [SerializeField] TextMeshProUGUI vText; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
@@ -36,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
+        Debug.DrawRay(new Vector2(transform.position.x, transform.position.y - 0.51f), Vector2.down, Color.red, 0.05f);
         Physics2D.gravity = new Vector2(0, gravity); //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
 
         //During the dash, players shouldnt be able to control the character. This ensures this.
@@ -77,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Jumps (this is kinda jank atm and a better solution needs to be in place for a double jump to feel good)
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow) && IsGrounded())
         {
             jumpVector = new Vector2(0, jumpStrength);
             playerRB.AddForce(jumpVector);
@@ -133,4 +140,5 @@ public class PlayerMovement : MonoBehaviour
             player.transform.position = new Vector2(Mathf.Lerp(dashStartPos.x, dashStartPos.x - dashDistance, dashTime), dashStartPos.y);
         }
     }
+
 }
