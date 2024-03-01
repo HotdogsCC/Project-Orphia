@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private float dashTime = 0;
     private bool dashDirectionRight = true;
     private bool canDoubleJump;
+    private float tempTopSpeed;
     bool IsGrounded()
     {
         return Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 0.51f), Vector2.down, 0.05f);
@@ -39,30 +40,35 @@ public class PlayerMovement : MonoBehaviour
         //Assigns components
         player = gameObject;
         playerRB = GetComponent<Rigidbody2D>();
+        tempTopSpeed = topSpeed;
     }
     private void Update()
     {
         Debug.DrawRay(new Vector2(transform.position.x, transform.position.y - 0.51f), Vector2.down, Color.red, 0.05f);
         Physics2D.gravity = new Vector2(0, gravity); //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
 
+        //Dashs when Z is clicked
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            isDashing = true;
+            dashStartPos = player.transform.position;
+            Dash();
+        }
+
+        Movement();
+
         //During the dash, players shouldnt be able to control the character. This ensures this.
         if (!isDashing)
         {
+            topSpeed = tempTopSpeed;
             dashTime = 0;
-            Movement();
+            
         }
         else
         {
             Dash();
         }
 
-        //Dashs when Z is clicked
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            isDashing = true;
-            dashStartPos = player.transform.position;
-            Dash();
-        }
     }
 
     private void Movement()
@@ -72,26 +78,26 @@ public class PlayerMovement : MonoBehaviour
         Vector2 jumpVector;
 
         //Sets character x velocity based upon input
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.D))
         {
             newXVelocity = (playerRB.velocity.x + acceleration * Time.deltaTime);
             dashDirectionRight = true;
         }
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.A))
         {
             newXVelocity = (playerRB.velocity.x - acceleration * Time.deltaTime);
             dashDirectionRight = false;
         }
 
         //Jumps (this is kinda jank atm and a better solution needs to be in place for a double jump to feel good)
-        if (Input.GetKeyDown(KeyCode.UpArrow) && IsGrounded())
+        if (Input.GetKeyDown(KeyCode.W) && IsGrounded())
         {
             jumpVector = new Vector2(0, jumpStrength);
             playerRB.AddForce(jumpVector);
         }
 
         //Slows movement if both or no keys are held
-        if ((!Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) && playerRB.velocity.x != 0) || (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.LeftArrow)))
+        if ((!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A) && playerRB.velocity.x != 0) || (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.A)))
         {
             //Checks what direction the player is moving
             if (playerRB.velocity.x > 0)
@@ -120,25 +126,29 @@ public class PlayerMovement : MonoBehaviour
     
     private void Dash()
     {
-        //Temp var that tracks how long it has been since the dash was initiated. Dash ends when dashTime = 1. The higher dashSpeed is, the quicker this is met
-        dashTime += dashSpeed * Time.deltaTime;
+        playerRB.velocity = new Vector2(dashSpeed, 0);
+        isDashing = false;
 
-        //Mathf.Lerp does not work when the interpolation value is greater than 1. this clamps the value up to 1
-        if (dashTime > 1)
-        {
-            dashTime = 1;
-            isDashing = false;
-        }
+        ////Temp var that tracks how long it has been since the dash was initiated. Dash ends when dashTime = 1. The higher dashSpeed is, the quicker this is met
+        //dashTime += dashSpeed * Time.deltaTime;
 
-        //Dashs in the direction the player is moving
-        if (dashDirectionRight)
-        {
-            player.transform.position = new Vector2(Mathf.Lerp(dashStartPos.x, dashStartPos.x + dashDistance, dashTime), dashStartPos.y);
-        }
-        else
-        {
-            player.transform.position = new Vector2(Mathf.Lerp(dashStartPos.x, dashStartPos.x - dashDistance, dashTime), dashStartPos.y);
-        }
+        ////Mathf.Lerp does not work when the interpolation value is greater than 1. this clamps the value up to 1
+        //if (dashTime >= 1)
+        //{
+        //    dashTime = 1;
+        //    isDashing = false;
+        //    playerRB.velocity = new Vector2(topSpeed, 0);
+        //}
+
+        ////Dashs in the direction the player is moving
+        //if (dashDirectionRight)
+        //{
+        //    player.transform.position = new Vector2(Mathf.Lerp(dashStartPos.x, dashStartPos.x + dashDistance, dashTime), dashStartPos.y);
+        //}
+        //else
+        //{
+        //    player.transform.position = new Vector2(Mathf.Lerp(dashStartPos.x, dashStartPos.x - dashDistance, dashTime), dashStartPos.y);
+        //}
     }
 
 }
