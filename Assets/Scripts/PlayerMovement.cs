@@ -6,7 +6,9 @@ using TMPro; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
 public class PlayerMovement : MonoBehaviour
 {
     //Assigns references to the player gameobject and rigidbody
+    [Header("Objects")]
     private Rigidbody2D playerRB;
+    [SerializeField] GameObject doubleJumpParticles;
 
     //Variables that affect the feel of the player movement
     [Header("Movement")]
@@ -24,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isDashing = false;
     private float dashTime = 0;
     private bool canDoubleJump = true;
+    private int health = 100;
 
     bool IsGrounded()
     {
@@ -33,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Other")]
     [SerializeField] private float gravity = -9.81f; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
     [SerializeField] TextMeshProUGUI vText; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
+    [SerializeField] TextMeshProUGUI hText; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
 
     private void Start()
     {
@@ -68,7 +72,13 @@ public class PlayerMovement : MonoBehaviour
             Dash(); 
         }
 
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            health += -10;
+        }
+
         vText.text = "current velocity: " + Mathf.RoundToInt(playerRB.velocity.x).ToString(); //Temp, remove later. shows the velocity on screen
+        hText.text = "current health: " + health.ToString(); //Temp, remove later. shows the health on screen
     }
 
     private void Movement()
@@ -98,6 +108,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (canDoubleJump)
             {
+                Instantiate(doubleJumpParticles, playerRB.transform.position, Quaternion.identity);
                 canDoubleJump = false;
                 playerRB.velocity = new Vector2(playerRB.velocity.x, 0);
                 jumpVector = new Vector2(0, jumpStrength);
