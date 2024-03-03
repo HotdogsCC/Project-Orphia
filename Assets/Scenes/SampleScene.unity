@@ -1860,10 +1860,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   feet: {fileID: 0}
   topSpeed: 10
-  acceleration: 120.6
-  decceleration: 100
-  jumpStrength: 700
-  dashSpeed: 27.2
-  dashDistance: 8
+  acceleration: 120
+  decceleration: 150
+  jumpStrength: 850
+  dashSpeed: 10
+  dashDuration: 50
   gravity: -50
   vText: {fileID: 1219833021}
