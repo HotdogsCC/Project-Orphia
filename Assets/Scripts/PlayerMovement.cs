@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
+using UnityEngine.UI;
+using UnityEngine.Rendering.PostProcessing;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -9,6 +11,14 @@ public class PlayerMovement : MonoBehaviour
     [Header("Objects")]
     private Rigidbody2D playerRB;
     [SerializeField] GameObject doubleJumpParticles;
+    private SpriteRenderer spriteRenderer;
+    [SerializeField] private PostProcessVolume ppv;
+    private Vignette vignette;
+    [SerializeField] GameObject mainCamera;
+
+    [Header("Camera Control")]
+    [SerializeField] private float xOffSet = 0f;
+    [SerializeField] private float yOffSet = 0f;
 
     //Variables that affect the feel of the player movement
     [Header("Movement")]
@@ -27,21 +37,26 @@ public class PlayerMovement : MonoBehaviour
     private float dashTime = 0;
     private bool canDoubleJump = true;
     private int health = 100;
+    private int rageLevel = 0;
 
     bool IsGrounded()
     {
         return Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 0.51f), Vector2.down, 0.005f);
     }
 
-    [Header("Other")]
+    [Header("Objects")]
+    [SerializeField] private Slider healthBar;
+    [SerializeField] private Image healthBarColour;
     [SerializeField] private float gravity = -9.81f; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
     [SerializeField] TextMeshProUGUI vText; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
     [SerializeField] TextMeshProUGUI hText; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
+    [SerializeField] TextMeshProUGUI rText; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
 
     private void Start()
     {
         //Assigns components
         playerRB = GetComponent<Rigidbody2D>();
+        vignette = ppv.profile.GetSetting<Vignette>();
     }
     private void Update()
     {
@@ -72,13 +87,23 @@ public class PlayerMovement : MonoBehaviour
             Dash(); 
         }
 
+        //Temp, remove later.
         if (Input.GetKeyDown(KeyCode.P))
         {
             health += -10;
         }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            health += -1;
+        }
 
         vText.text = "current velocity: " + Mathf.RoundToInt(playerRB.velocity.x).ToString(); //Temp, remove later. shows the velocity on screen
         hText.text = "current health: " + health.ToString(); //Temp, remove later. shows the health on screen
+        rText.text = "current rage lvl: " + rageLevel.ToString(); //Temp, remove later. shows the health on screen
+
+        UpdateHealthAndRage();
+
+        mainCamera.transform.position = new Vector3(playerRB.transform.position.x + xOffSet, yOffSet, -10);
     }
 
     private void Movement()
@@ -193,5 +218,37 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-   
+    private void UpdateHealthAndRage()
+    {
+        healthBar.value = health;
+        //spriteRenderer.material.SetFloat("_GrayscaleAmount", 0);
+        vignette.intensity.value = (100 - health) * 0.005f;
+
+        if(health < 15)
+        {
+            healthBarColour.color = new Color(0.2358491f, 0.007787474f, 0.007787474f);
+            rageLevel = 4;
+        }
+        else if(health < 40)
+        {
+            healthBarColour.color = new Color(0.7735849f, 0.0204165f, 0.0960312f);
+            rageLevel = 3;
+        }
+        else if(health < 60)
+        {
+            healthBarColour.color = new Color(0.772549f, 0.3592402f, 0.1215686f);
+            rageLevel = 2;
+        }
+        else if(health < 80)
+        {
+            healthBarColour.color = new Color(0.864151f, 0.7191203f, 0.09732112f);
+            rageLevel = 1;
+        }
+        else
+        {
+            healthBarColour.color = new Color(0.5038894f, 0.7647059f, 0.09803921f);
+            rageLevel = 0;
+        }
+    }
+    
 }

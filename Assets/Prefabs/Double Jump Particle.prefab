@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1719076129187249771}
   - component: {fileID: 7714961156897085774}
   - component: {fileID: 2326988939235733016}
+  - component: {fileID: 6958191850924834072}
   m_Layer: 0
   m_Name: Double Jump Particle
   m_TagString: Untagged
@@ -4812,3 +4813,16 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &6958191850924834072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692039631834630048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a205d8d95d6c9745a761e297ccc7949, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeAlive: 1
