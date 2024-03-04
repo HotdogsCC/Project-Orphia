@@ -32,12 +32,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashSpeed = 0.1f;
     [SerializeField] private float dashDuration = 1f;
 
+    [Header("Primary Attack")]
+    [SerializeField] private int primaryAttackDamage = 10;
+    [SerializeField] private int primaryComboFinishDamage = 15;
+    [SerializeField] private float primaryAttackCooldown = 0.3f;
+    [SerializeField] private float primaryComboCooldown = 1f;
+    [SerializeField] private int comboCount = 3;
+
+
     //Important data
     private bool isDashing = false;
     private float dashTime = 0;
     private bool canDoubleJump = true;
     private int health = 100;
     private int rageLevel = 0;
+    private bool canPrimaryAttack = true;
 
     bool IsGrounded()
     {
@@ -86,6 +95,8 @@ public class PlayerMovement : MonoBehaviour
         {
             Dash(); 
         }
+
+        Attack();
 
         //Temp, remove later.
         if (Input.GetKeyDown(KeyCode.P))
@@ -248,6 +259,30 @@ public class PlayerMovement : MonoBehaviour
         {
             healthBarColour.color = new Color(0.5038894f, 0.7647059f, 0.09803921f);
             rageLevel = 0;
+        }
+    }
+
+    private void Attack()
+    {
+        //On left click
+        if (Input.GetMouseButton(0) && canPrimaryAttack)
+        {
+            canPrimaryAttack = false;
+            StartCoroutine(WaitAndThen(primaryAttackCooldown, "canPrimaryAttack"));
+        }
+    }
+
+    private IEnumerator WaitAndThen(float seconds, string thing)
+    {
+        yield return new WaitForSeconds(seconds);
+        switch (thing)
+        {
+            case "canPrimaryAttack":
+                canPrimaryAttack = true;
+                break;
+            default:
+                Debug.LogError("Thing attached to WaitAndThen is not valid");
+                break;
         }
     }
     

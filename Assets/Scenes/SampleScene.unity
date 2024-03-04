@@ -1360,7 +1360,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &953926316
 Animator:
   serializedVersion: 5
@@ -3064,6 +3064,11 @@ MonoBehaviour:
   jumpStrength: 850
   dashSpeed: 10
   dashDuration: 50
+  primaryAttackDamage: 10
+  primaryComboFinishDamage: 15
+  primaryAttackCooldown: 0.1
+  primaryComboCooldown: 1
+  comboCount: 3
   healthBar: {fileID: 625098898}
   healthBarColour: {fileID: 1754041521}
   gravity: -50
