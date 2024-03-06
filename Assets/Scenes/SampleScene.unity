@@ -3203,8 +3203,8 @@ MonoBehaviour:
   dashDuration: 50
   primaryAttackDamage: 10
   primaryComboFinishDamage: 15
-  primaryAttackKnockback: 100
-  primaryAttackCooldown: 0.1
+  primaryAttackKnockback: 500
+  primaryAttackCooldown: 0.75
   primaryComboCooldown: 1
   comboCount: 3
   enemiesInPHitbox: []
