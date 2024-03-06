@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private PostProcessVolume ppv;
     private Vignette vignette;
     [SerializeField] GameObject mainCamera;
+    [SerializeField] GameObject primaryAttackHitbox;
 
     [Header("Camera Control")]
     [SerializeField] private float xOffSet = 0f;
@@ -35,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Primary Attack")]
     [SerializeField] private int primaryAttackDamage = 10;
     [SerializeField] private int primaryComboFinishDamage = 15;
+    [SerializeField] private float primaryAttackKnockback = 1;
     [SerializeField] private float primaryAttackCooldown = 0.3f;
     [SerializeField] private float primaryComboCooldown = 1f;
     [SerializeField] private int comboCount = 3;
@@ -47,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
     private int health = 100;
     private int rageLevel = 0;
     private bool canPrimaryAttack = true;
+    public List<Enemy> enemiesInPHitbox;
 
     bool IsGrounded()
     {
@@ -127,10 +130,12 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             newXVelocity = (playerRB.velocity.x + acceleration * Time.deltaTime);
+            primaryAttackHitbox.transform.localPosition = new Vector2(1, 0);
         }
         if (Input.GetKey(KeyCode.A))
         {
             newXVelocity = (playerRB.velocity.x - acceleration * Time.deltaTime);
+            primaryAttackHitbox.transform.localPosition = new Vector2(-1, 0);
         }
 
         //Jumps
@@ -267,7 +272,15 @@ public class PlayerMovement : MonoBehaviour
         //On left click
         if (Input.GetMouseButton(0) && canPrimaryAttack)
         {
+            Debug.Log("attack");
             canPrimaryAttack = false;
+            if(enemiesInPHitbox.Count > 0)
+            {
+                foreach (Enemy enemy in enemiesInPHitbox)
+                {
+                    enemy.HitEnemy(primaryAttackDamage, primaryAttackKnockback);
+                }
+            }
             StartCoroutine(WaitAndThen(primaryAttackCooldown, "canPrimaryAttack"));
         }
     }
