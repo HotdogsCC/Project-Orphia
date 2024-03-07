@@ -50,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
     private int rageLevel = 0;
     private bool canPrimaryAttack = true;
     public List<Enemy> enemiesInPHitbox;
+    public DestroyableWall currentDestoryableWall;
 
     bool IsGrounded()
     {
@@ -280,6 +281,10 @@ public class PlayerMovement : MonoBehaviour
                 {
                     enemy.HitEnemy(primaryAttackDamage, primaryAttackKnockback);
                 }
+            }
+            if(currentDestoryableWall != null)
+            {
+                currentDestoryableWall.Destroyed();
             }
             StartCoroutine(WaitAndThen(primaryAttackCooldown, "canPrimaryAttack"));
         }

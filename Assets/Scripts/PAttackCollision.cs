@@ -12,6 +12,10 @@ public class PAttackCollision : MonoBehaviour
         {
             player.enemiesInPHitbox.Add(enemy);
         }
+        else if (collision.TryGetComponent<DestroyableWall>(out DestroyableWall wall))
+        {
+            player.currentDestoryableWall = wall;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -19,6 +23,10 @@ public class PAttackCollision : MonoBehaviour
         if (collision.TryGetComponent<Enemy>(out Enemy enemy))
         {
             player.enemiesInPHitbox.Remove(enemy);
+        }
+        else if (collision.TryGetComponent<DestroyableWall>(out DestroyableWall wall))
+        {
+            player.currentDestoryableWall = null;
         }
     }
 }
