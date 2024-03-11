@@ -34,12 +34,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashDuration = 1f;
 
     [Header("Primary Attack")]
-    [SerializeField] private int primaryAttackDamage = 10;
-    [SerializeField] private int primaryComboFinishDamage = 15;
-    [SerializeField] private float primaryAttackKnockback = 1;
-    [SerializeField] private float primaryAttackCooldown = 0.3f;
-    [SerializeField] private float primaryComboCooldown = 1f;
-    [SerializeField] private int comboCount = 3;
+    [SerializeField] private int pAttackDamage = 10;
+    [SerializeField] private int pComboFinishDamage = 15;
+    [SerializeField] private float pAttackXKnockback = 1;
+    [SerializeField] private float pAttackYKnockback = 1;
+    [SerializeField] private float pComboFinishXKnockback = 1;
+    [SerializeField] private float pComboFinishYKnockback = 1;
+    [SerializeField] private float pAttackCooldown = 0.3f;
+    [SerializeField] private float pComboCooldown = 1f;
+    [SerializeField] private int pComboCount = 3;
+    [SerializeField] private float pTimeComboIsActive = 0.5f;
 
 
     //Important data
@@ -51,6 +55,9 @@ public class PlayerMovement : MonoBehaviour
     private bool canPrimaryAttack = true;
     public List<Enemy> enemiesInPHitbox;
     public DestroyableWall currentDestoryableWall;
+    public bool isFacingRight = true;
+    private float comboCountdown = 0;
+    private int comboCount = 0;
 
     bool IsGrounded()
     {
@@ -64,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] TextMeshProUGUI vText; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
     [SerializeField] TextMeshProUGUI hText; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
     [SerializeField] TextMeshProUGUI rText; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
+    [SerializeField] TextMeshProUGUI cText;
 
     private void Start()
     {
@@ -115,10 +123,13 @@ public class PlayerMovement : MonoBehaviour
         vText.text = "current velocity: " + Mathf.RoundToInt(playerRB.velocity.x).ToString(); //Temp, remove later. shows the velocity on screen
         hText.text = "current health: " + health.ToString(); //Temp, remove later. shows the health on screen
         rText.text = "current rage lvl: " + rageLevel.ToString(); //Temp, remove later. shows the health on screen
+        cText.text = "current combo count: " + comboCount.ToString(); //Temp, remove later. shows combo count
 
         UpdateHealthAndRage();
 
         mainCamera.transform.position = new Vector3(playerRB.transform.position.x + xOffSet, yOffSet, -10);
+
+        ComboCountdown();
     }
 
     private void Movement()
@@ -126,37 +137,6 @@ public class PlayerMovement : MonoBehaviour
         //Temp vars
         float newXVelocity = 0;
         Vector2 jumpVector;
-
-        //Sets character x velocity based upon input
-        if (Input.GetKey(KeyCode.D))
-        {
-            newXVelocity = (playerRB.velocity.x + acceleration * Time.deltaTime);
-            primaryAttackHitbox.transform.localPosition = new Vector2(1, 0);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            newXVelocity = (playerRB.velocity.x - acceleration * Time.deltaTime);
-            primaryAttackHitbox.transform.localPosition = new Vector2(-1, 0);
-        }
-
-        //Jumps
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            if (IsGrounded())
-            {
-                playerRB.velocity = new Vector2(playerRB.velocity.x, 0);
-                jumpVector = new Vector2(0, jumpStrength);
-                playerRB.AddForce(jumpVector);
-            }
-            else if (canDoubleJump)
-            {
-                Instantiate(doubleJumpParticles, playerRB.transform.position, Quaternion.identity);
-                canDoubleJump = false;
-                playerRB.velocity = new Vector2(playerRB.velocity.x, 0);
-                jumpVector = new Vector2(0, jumpStrength);
-                playerRB.AddForce(jumpVector);
-            }
-        }
 
         //Slows movement if both or no keys are held
         if ((!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A) && playerRB.velocity.x != 0) || (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.A)))
@@ -177,6 +157,41 @@ public class PlayerMovement : MonoBehaviour
                 {
                     newXVelocity = 0;
                 }
+            }
+        }
+        else
+        {
+            //Sets character x velocity based upon input
+            if (Input.GetKey(KeyCode.D))
+            {
+                newXVelocity = (playerRB.velocity.x + acceleration * Time.deltaTime);
+                primaryAttackHitbox.transform.localPosition = new Vector2(1, 0);
+                isFacingRight = true;
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                newXVelocity = (playerRB.velocity.x - acceleration * Time.deltaTime);
+                primaryAttackHitbox.transform.localPosition = new Vector2(-1, 0);
+                isFacingRight = false;
+            }
+        }
+
+        //Jumps
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            if (IsGrounded())
+            {
+                playerRB.velocity = new Vector2(playerRB.velocity.x, 0);
+                jumpVector = new Vector2(0, jumpStrength);
+                playerRB.AddForce(jumpVector);
+            }
+            else if (canDoubleJump)
+            {
+                Instantiate(doubleJumpParticles, playerRB.transform.position, Quaternion.identity);
+                canDoubleJump = false;
+                playerRB.velocity = new Vector2(playerRB.velocity.x, 0);
+                jumpVector = new Vector2(0, jumpStrength);
+                playerRB.AddForce(jumpVector);
             }
         }
 
@@ -277,16 +292,30 @@ public class PlayerMovement : MonoBehaviour
             canPrimaryAttack = false;
             if(enemiesInPHitbox.Count > 0)
             {
-                foreach (Enemy enemy in enemiesInPHitbox)
+                comboCount++;
+                comboCountdown = pTimeComboIsActive;
+                if (comboCount >= 3)
                 {
-                    enemy.HitEnemy(primaryAttackDamage, primaryAttackKnockback);
+                    comboCount = 0;
+                    foreach (Enemy enemy in enemiesInPHitbox)
+                    {
+                        enemy.HitEnemy(pComboFinishDamage, pComboFinishXKnockback, pComboFinishYKnockback);
+                    }
                 }
+                else
+                {
+                    foreach (Enemy enemy in enemiesInPHitbox)
+                    {
+                        enemy.HitEnemy(pAttackDamage, pAttackXKnockback, pAttackYKnockback);
+                    }
+                }
+                
             }
             if(currentDestoryableWall != null)
             {
                 currentDestoryableWall.Destroyed();
             }
-            StartCoroutine(WaitAndThen(primaryAttackCooldown, "canPrimaryAttack"));
+            StartCoroutine(WaitAndThen(pAttackCooldown, "canPrimaryAttack"));
         }
     }
 
@@ -301,6 +330,16 @@ public class PlayerMovement : MonoBehaviour
             default:
                 Debug.LogError("Thing attached to WaitAndThen is not valid");
                 break;
+        }
+    }
+
+    private void ComboCountdown()
+    {
+        comboCountdown -= Time.deltaTime;
+        if(comboCountdown <= 0)
+        {
+            comboCountdown = 0;
+            comboCount = 0;
         }
     }
     
