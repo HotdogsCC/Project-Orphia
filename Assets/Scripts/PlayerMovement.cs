@@ -41,7 +41,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float pComboFinishXKnockback = 1;
     [SerializeField] private float pComboFinishYKnockback = 1;
     [SerializeField] private float pAttackCooldown = 0.3f;
-    [SerializeField] private float pComboCooldown = 1f;
     [SerializeField] private int pComboCount = 3;
     [SerializeField] private float pTimeComboIsActive = 0.5f;
 
@@ -58,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isFacingRight = true;
     private float comboCountdown = 0;
     private int comboCount = 0;
+    private float damageDealtMultiplier = 1;
 
     bool IsGrounded()
     {
@@ -92,8 +92,8 @@ public class PlayerMovement : MonoBehaviour
         //During the dash, players shouldnt be able to control the character. This ensures this.
         if (!isDashing)
         {
-            //Dashs when Space is clicked
-            if (Input.GetKeyDown(KeyCode.Space))
+            //Dashs when Right Click is clicked
+            if (Input.GetMouseButtonDown(1))
             {
                 isDashing = true;
                 Dash();
@@ -260,26 +260,31 @@ public class PlayerMovement : MonoBehaviour
         {
             healthBarColour.color = new Color(0.2358491f, 0.007787474f, 0.007787474f);
             rageLevel = 4;
+            damageDealtMultiplier = 2;
         }
         else if(health < 40)
         {
             healthBarColour.color = new Color(0.7735849f, 0.0204165f, 0.0960312f);
             rageLevel = 3;
+            damageDealtMultiplier = 2;
         }
         else if(health < 60)
         {
             healthBarColour.color = new Color(0.772549f, 0.3592402f, 0.1215686f);
             rageLevel = 2;
+            damageDealtMultiplier = 1.5f;
         }
         else if(health < 80)
         {
             healthBarColour.color = new Color(0.864151f, 0.7191203f, 0.09732112f);
             rageLevel = 1;
+            damageDealtMultiplier = 1.25f;
         }
         else
         {
             healthBarColour.color = new Color(0.5038894f, 0.7647059f, 0.09803921f);
             rageLevel = 0;
+            damageDealtMultiplier = 1;
         }
     }
 
@@ -294,19 +299,19 @@ public class PlayerMovement : MonoBehaviour
             {
                 comboCount++;
                 comboCountdown = pTimeComboIsActive;
-                if (comboCount >= 3)
+                if (comboCount >= pComboCount)
                 {
                     comboCount = 0;
                     foreach (Enemy enemy in enemiesInPHitbox)
                     {
-                        enemy.HitEnemy(pComboFinishDamage, pComboFinishXKnockback, pComboFinishYKnockback);
+                        enemy.HitEnemy((int)(pComboFinishDamage * damageDealtMultiplier), pComboFinishXKnockback, pComboFinishYKnockback);
                     }
                 }
                 else
                 {
                     foreach (Enemy enemy in enemiesInPHitbox)
                     {
-                        enemy.HitEnemy(pAttackDamage, pAttackXKnockback, pAttackYKnockback);
+                        enemy.HitEnemy((int)(pAttackDamage * damageDealtMultiplier), pAttackXKnockback, pAttackYKnockback);
                     }
                 }
                 
