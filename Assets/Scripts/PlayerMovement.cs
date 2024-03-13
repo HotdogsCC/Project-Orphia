@@ -54,10 +54,12 @@ public class PlayerMovement : MonoBehaviour
     private bool canPrimaryAttack = true;
     public List<Enemy> enemiesInPHitbox;
     public DestroyableWall currentDestoryableWall;
+    public KeyWall currentKeyWall;
     public bool isFacingRight = true;
     private float comboCountdown = 0;
     private int comboCount = 0;
     private float damageDealtMultiplier = 1;
+    private bool hasKey = false;
 
     bool IsGrounded()
     {
@@ -86,7 +88,6 @@ public class PlayerMovement : MonoBehaviour
         {
             canDoubleJump = true;
         }
-        Debug.DrawRay(new Vector2(transform.position.x, transform.position.y - 0.51f), Vector2.down, Color.red, 0.01f);
         Physics2D.gravity = new Vector2(0, gravity); //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
 
         //During the dash, players shouldnt be able to control the character. This ensures this.
@@ -96,19 +97,20 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetMouseButtonDown(1))
             {
                 isDashing = true;
-                Dash();
+                DashCalculations();
             }
-            else
+            else 
             {
                 Movement();
             }
         }
         else
         {
-            Dash(); 
+            DashCalculations(); 
         }
 
         Attack();
+        Interact();
 
         //Temp, remove later.
         if (Input.GetKeyDown(KeyCode.P))
@@ -226,7 +228,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     
-    private void Dash()
+    private void DashCalculations()
     {
         //Temp var that tracks how long it has been since the dash was initiated. Dash ends when dashTime = 1. The higher dashSpeed is, the quicker this is met
         dashTime += dashSpeed * Time.deltaTime;
@@ -319,8 +321,19 @@ public class PlayerMovement : MonoBehaviour
             if(currentDestoryableWall != null)
             {
                 currentDestoryableWall.Destroyed();
+                currentDestoryableWall = null;
             }
             StartCoroutine(WaitAndThen(pAttackCooldown, "canPrimaryAttack"));
+        }
+    }
+
+    private void Interact()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && currentKeyWall != null && hasKey)
+        {
+            currentKeyWall.Unlocked();
+            currentKeyWall = null;
+            hasKey = false;
         }
     }
 
@@ -347,5 +360,15 @@ public class PlayerMovement : MonoBehaviour
             comboCount = 0;
         }
     }
-    
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "key")
+        {
+            hasKey = true;
+            Key key = collision.GetComponent<Key>();
+            key.PickedUp();
+        }
+    }
+
 }

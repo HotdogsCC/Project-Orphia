@@ -16,6 +16,10 @@ public class PAttackCollision : MonoBehaviour
         {
             player.currentDestoryableWall = wall;
         }
+        else if (collision.TryGetComponent<KeyWall>(out KeyWall kWall))
+        {
+            player.currentKeyWall = kWall;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

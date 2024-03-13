@@ -6,6 +6,7 @@ TagManager:
   tags:
   - jumpable
   - Dialogue
+  - key
   layers:
   - Default
   - TransparentFX
