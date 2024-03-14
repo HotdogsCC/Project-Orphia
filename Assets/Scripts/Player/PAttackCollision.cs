@@ -5,6 +5,7 @@ using UnityEngine;
 public class PAttackCollision : MonoBehaviour
 {
     [SerializeField] PlayerMovement player;
+    [SerializeField] PlayerInteraction interaction;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -18,7 +19,7 @@ public class PAttackCollision : MonoBehaviour
         }
         else if (collision.TryGetComponent<KeyWall>(out KeyWall kWall))
         {
-            player.currentKeyWall = kWall;
+            interaction.currentKeyWall = kWall;
         }
     }
 

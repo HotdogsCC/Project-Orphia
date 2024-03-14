@@ -15,6 +15,9 @@ public class DialogueTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        dialogueBox.SetText(messageText);
+        if(collision.tag == "Player")
+        {
+            dialogueBox.SetText(messageText);
+        }
     }
 }

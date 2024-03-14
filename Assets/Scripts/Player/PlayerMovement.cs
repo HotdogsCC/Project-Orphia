@@ -54,16 +54,15 @@ public class PlayerMovement : MonoBehaviour
     private bool canPrimaryAttack = true;
     public List<Enemy> enemiesInPHitbox;
     public DestroyableWall currentDestoryableWall;
-    public KeyWall currentKeyWall;
     public bool isFacingRight = true;
     private float comboCountdown = 0;
     private int comboCount = 0;
     private float damageDealtMultiplier = 1;
-    private bool hasKey = false;
+    
 
     bool IsGrounded()
     {
-        return Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 0.51f), Vector2.down, 0.01f);
+        return Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 0.51f), Vector2.down, 0.051f);
     }
 
     [Header("Objects")]
@@ -110,7 +109,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Attack();
-        Interact();
 
         //Temp, remove later.
         if (Input.GetKeyDown(KeyCode.P))
@@ -254,7 +252,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void UpdateHealthAndRage()
     {
-        healthBar.value = health;
+        
         //spriteRenderer.material.SetFloat("_GrayscaleAmount", 0);
         vignette.intensity.value = (100 - health) * 0.005f;
 
@@ -263,30 +261,39 @@ public class PlayerMovement : MonoBehaviour
             healthBarColour.color = new Color(0.2358491f, 0.007787474f, 0.007787474f);
             rageLevel = 4;
             damageDealtMultiplier = 2;
+            healthBar.value = Mathf.RoundToInt(health * 19 / 14);
         }
         else if(health < 40)
         {
             healthBarColour.color = new Color(0.7735849f, 0.0204165f, 0.0960312f);
             rageLevel = 3;
             damageDealtMultiplier = 2;
+            healthBar.value = Mathf.RoundToInt(health * 19 / 24 + 8.125f);
+            if(health == 15)
+            {
+                healthBar.value = 20;
+            }
         }
         else if(health < 60)
         {
             healthBarColour.color = new Color(0.772549f, 0.3592402f, 0.1215686f);
             rageLevel = 2;
             damageDealtMultiplier = 1.5f;
+            healthBar.value = health;
         }
         else if(health < 80)
         {
             healthBarColour.color = new Color(0.864151f, 0.7191203f, 0.09732112f);
             rageLevel = 1;
             damageDealtMultiplier = 1.25f;
+            healthBar.value = health;
         }
         else
         {
             healthBarColour.color = new Color(0.5038894f, 0.7647059f, 0.09803921f);
             rageLevel = 0;
             damageDealtMultiplier = 1;
+            healthBar.value = health;
         }
     }
 
@@ -295,7 +302,6 @@ public class PlayerMovement : MonoBehaviour
         //On left click
         if (Input.GetMouseButton(0) && canPrimaryAttack)
         {
-            Debug.Log("attack");
             canPrimaryAttack = false;
             if(enemiesInPHitbox.Count > 0)
             {
@@ -327,16 +333,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Interact()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && currentKeyWall != null && hasKey)
-        {
-            currentKeyWall.Unlocked();
-            currentKeyWall = null;
-            hasKey = false;
-        }
-    }
-
     private IEnumerator WaitAndThen(float seconds, string thing)
     {
         yield return new WaitForSeconds(seconds);
@@ -361,14 +357,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void IncreaseHealth(int increase)
     {
-        if (collision.tag == "key")
+        health += increase;
+        if(health >= 100)
         {
-            hasKey = true;
-            Key key = collision.GetComponent<Key>();
-            key.PickedUp();
+            health = 100;
         }
     }
-
 }
