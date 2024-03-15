@@ -3342,6 +3342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 519420031}
+  player: {fileID: 2058036370}
 --- !u!212 &1701888637
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3382,7 +3383,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 1, b: 0.9256196, a: 1}
   m_FlipX: 0
@@ -4234,9 +4235,12 @@ MonoBehaviour:
   pAttackCooldown: 0.3
   pComboCount: 3
   pTimeComboIsActive: 1
+  stunTime: 1
   enemiesInPHitbox: []
   currentDestoryableWall: {fileID: 0}
   isFacingRight: 0
+  isStunned: 0
+  isTailingSucking: 0
   healthBar: {fileID: 625098898}
   healthBarColour: {fileID: 1754041521}
   gravity: -50
@@ -4303,14 +4307,6 @@ PrefabInstance:
     - target: {fileID: 697475876008288899, guid: 9803a7e8aa7d6f540a67752c2eef4d72, type: 3}
       propertyPath: m_Name
       value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 697475876008288900, guid: 9803a7e8aa7d6f540a67752c2eef4d72, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 2058036375}
-    - target: {fileID: 697475876008288900, guid: 9803a7e8aa7d6f540a67752c2eef4d72, type: 3}
-      propertyPath: enemyType
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 697475876008288901, guid: 9803a7e8aa7d6f540a67752c2eef4d72, type: 3}
       propertyPath: m_RootOrder

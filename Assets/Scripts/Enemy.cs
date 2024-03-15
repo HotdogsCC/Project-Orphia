@@ -12,6 +12,9 @@ public class Enemy : MonoBehaviour
     }
 
     [SerializeField] private int health = 100;
+    [SerializeField] private int damage = 25;
+    [SerializeField] private float xKnockbackDealt = 5;
+    [SerializeField] private float yKnockbackDealt = 5;
     [SerializeField] EnemyType enemyType = EnemyType.Small;
     private Rigidbody2D enemyRB;
     private PlayerMovement player;
@@ -19,8 +22,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject hurtParticles;
     [SerializeField] private GameObject corpse;
     [SerializeField] TextMeshProUGUI hText;
+    private bool isTailSucking = false;
     public void Destroyed()
     {
+        player.isStunned = false;
+        player.isTailingSucking = false;
         GameObject corpseGO = Instantiate(corpse, gameObject.transform.position, Quaternion.identity);
         corpseGO.GetComponent<Rigidbody2D>().velocity = enemyRB.velocity;
         corpseGO.GetComponent<EnemyCorpse>().SetEnemyType(enemyType);
@@ -58,6 +64,61 @@ public class Enemy : MonoBehaviour
             enemyRB.velocity = new Vector2(-xKnockbackDealt, yKnockbackDealt);
         }
         
+    }
+
+    public void BeginTailSucking()
+    {
+        isTailSucking = true;
+        TailSucking();
+    }
+
+    private void TailSucking()
+    {
+        if (isTailSucking)
+        {
+            HealthConsumed();
+            if (Random.Range(1, 10) <= 2)
+            {
+                isTailSucking = false;
+                player.DamageInflicted(damage, xKnockbackDealt, yKnockbackDealt, gameObject.transform.position);
+            }
+            else
+            {
+                StartCoroutine(WaitAndThen(0.5f, "tailSuck"));
+            }
+        }
+    }
+    public void EndTailSucking()
+    {
+        isTailSucking = false;
+    }
+
+
+    private void HealthConsumed()
+    {
+        player.IncreaseHealth(1);
+        health -= 1;
+        StartCoroutine(WaitAndThen(0.05f, "healthConsumed"));
+    }
+
+    private IEnumerator WaitAndThen(float seconds, string thing)
+    {
+        yield return new WaitForSeconds(seconds);
+        switch (thing)
+        {
+            case "tailSuck":
+                TailSucking();
+                break;
+            case "healthConsumed":
+                if (isTailSucking)
+                {
+                    HealthConsumed();
+                }
+                break;
+            default:
+                Debug.LogError("Thing attached to WaitAndThen is not valid");
+                break;
+        }
     }
 
 }

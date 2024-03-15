@@ -13,11 +13,11 @@ public class PAttackCollision : MonoBehaviour
         {
             player.enemiesInPHitbox.Add(enemy);
         }
-        else if (collision.TryGetComponent<DestroyableWall>(out DestroyableWall wall))
+        if (collision.TryGetComponent<DestroyableWall>(out DestroyableWall wall))
         {
             player.currentDestoryableWall = wall;
         }
-        else if (collision.TryGetComponent<KeyWall>(out KeyWall kWall))
+        if (collision.TryGetComponent<KeyWall>(out KeyWall kWall))
         {
             interaction.currentKeyWall = kWall;
         }
@@ -29,7 +29,7 @@ public class PAttackCollision : MonoBehaviour
         {
             player.enemiesInPHitbox.Remove(enemy);
         }
-        else if (collision.TryGetComponent<DestroyableWall>(out DestroyableWall wall))
+        if (collision.TryGetComponent<DestroyableWall>(out DestroyableWall wall))
         {
             player.currentDestoryableWall = null;
         }

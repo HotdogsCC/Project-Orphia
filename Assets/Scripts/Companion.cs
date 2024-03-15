@@ -6,12 +6,28 @@ using UnityEngine.Rendering.PostProcessing;
 public class Companion : MonoBehaviour
 {
     [SerializeField] Camera cam;
+    [SerializeField] private GameObject player;
     private Vector3 targetPosition;
+    private bool companionMouseFollow = false;
 
     // Update is called once per frame
     void Update()
     {
-        targetPosition = cam.ScreenToWorldPoint(Input.mousePosition);
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            companionMouseFollow = !companionMouseFollow;
+        }
+
+        if (companionMouseFollow)
+        {
+            targetPosition = cam.ScreenToWorldPoint(Input.mousePosition);
+            
+        }
+        else
+        {
+            targetPosition = player.transform.position;
+        }
+
         targetPosition = new Vector3(targetPosition.x, targetPosition.y, 0);
         gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition, 0.1f);
     }

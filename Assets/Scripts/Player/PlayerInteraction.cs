@@ -28,6 +28,21 @@ public class PlayerInteraction : MonoBehaviour
                 player.IncreaseHealth(enemyCorpse.Consumed());
                 enemyCorpse = null;
             }
+            if (player.enemiesInPHitbox.Count > 0)
+            {
+                if (!player.isTailingSucking)
+                {
+                    player.ResetVelocity();
+                    player.isTailingSucking = true;
+                    player.enemiesInPHitbox[0].BeginTailSucking();
+                }
+                else
+                {
+                    player.isTailingSucking = false;
+                    player.enemiesInPHitbox[0].EndTailSucking();
+                }
+                
+            }
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -50,4 +65,6 @@ public class PlayerInteraction : MonoBehaviour
             enemyCorpse = null;
         }
     }
+
+    
 }

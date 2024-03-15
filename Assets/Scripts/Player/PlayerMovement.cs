@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
 using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
+using Unity.VisualScripting;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -44,6 +45,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int pComboCount = 3;
     [SerializeField] private float pTimeComboIsActive = 0.5f;
 
+    [Header("Other")]
+    [SerializeField] private float stunTime = 1f;
+
 
     //Important data
     private bool isDashing = false;
@@ -58,7 +62,8 @@ public class PlayerMovement : MonoBehaviour
     private float comboCountdown = 0;
     private int comboCount = 0;
     private float damageDealtMultiplier = 1;
-    
+    public bool isStunned = false;
+    public bool isTailingSucking = false;
 
     bool IsGrounded()
     {
@@ -90,25 +95,32 @@ public class PlayerMovement : MonoBehaviour
         Physics2D.gravity = new Vector2(0, gravity); //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
 
         //During the dash, players shouldnt be able to control the character. This ensures this.
-        if (!isDashing)
+        if (!isStunned)
         {
-            //Dashs when Right Click is clicked
-            if (Input.GetMouseButtonDown(1))
-            {
-                isDashing = true;
-                DashCalculations();
-            }
-            else 
-            {
-                Movement();
-            }
-        }
-        else
-        {
-            DashCalculations(); 
-        }
 
-        Attack();
+            if (!isTailingSucking)
+            {
+                if (!isDashing)
+                {
+                    //Dashs when Right Click is clicked
+                    if (Input.GetMouseButtonDown(1))
+                    {
+                        isDashing = true;
+                        DashCalculations();
+                    }
+                    else
+                    {
+                        Movement();
+                    }
+                }
+                else
+                {
+                    DashCalculations();
+                }
+            }
+
+            Attack();
+        }
 
         //Temp, remove later.
         if (Input.GetKeyDown(KeyCode.P))
@@ -256,7 +268,13 @@ public class PlayerMovement : MonoBehaviour
         //spriteRenderer.material.SetFloat("_GrayscaleAmount", 0);
         vignette.intensity.value = (100 - health) * 0.005f;
 
-        if(health < 15)
+
+        if(health <= 0)
+        {
+            Debug.Log("game over");
+            healthBar.value = 0;
+        }
+        else if(health < 15)
         {
             healthBarColour.color = new Color(0.2358491f, 0.007787474f, 0.007787474f);
             rageLevel = 4;
@@ -302,7 +320,17 @@ public class PlayerMovement : MonoBehaviour
         //On left click
         if (Input.GetMouseButton(0) && canPrimaryAttack)
         {
+            isTailingSucking = false;
             canPrimaryAttack = false;
+            isStunned = true;
+            if (isFacingRight)
+            {
+                playerRB.velocity = new Vector2(topSpeed, playerRB.velocity.y);
+            }
+            else
+            {
+                playerRB.velocity = new Vector2(-topSpeed, playerRB.velocity.y);
+            }
             if(enemiesInPHitbox.Count > 0)
             {
                 comboCount++;
@@ -313,6 +341,7 @@ public class PlayerMovement : MonoBehaviour
                     foreach (Enemy enemy in enemiesInPHitbox)
                     {
                         enemy.HitEnemy((int)(pComboFinishDamage * damageDealtMultiplier), pComboFinishXKnockback, pComboFinishYKnockback);
+                        enemy.EndTailSucking();
                     }
                 }
                 else
@@ -320,6 +349,7 @@ public class PlayerMovement : MonoBehaviour
                     foreach (Enemy enemy in enemiesInPHitbox)
                     {
                         enemy.HitEnemy((int)(pAttackDamage * damageDealtMultiplier), pAttackXKnockback, pAttackYKnockback);
+                        enemy.EndTailSucking();
                     }
                 }
                 
@@ -340,6 +370,10 @@ public class PlayerMovement : MonoBehaviour
         {
             case "canPrimaryAttack":
                 canPrimaryAttack = true;
+                isStunned = false;
+                break;
+            case "stun":
+                isStunned = false;
                 break;
             default:
                 Debug.LogError("Thing attached to WaitAndThen is not valid");
@@ -364,5 +398,29 @@ public class PlayerMovement : MonoBehaviour
         {
             health = 100;
         }
+    }
+
+    public void DamageInflicted(int damageAmount, float xKnockbackInflicted, float yKnockbackInflicted, Vector2 enemyPosition)
+    {
+        isTailingSucking = false;
+        health -= damageAmount;
+        UpdateHealthAndRage();
+        isStunned = true;
+        ResetVelocity();
+        if (gameObject.transform.position.x >= enemyPosition.x)
+        {
+            playerRB.AddForce(new Vector2(xKnockbackInflicted, yKnockbackInflicted));
+        }
+        else
+        {
+            playerRB.AddForce(new Vector2(-xKnockbackInflicted, yKnockbackInflicted));
+        }
+        StartCoroutine(WaitAndThen(stunTime, "stun"));
+        
+    }
+
+    public void ResetVelocity()
+    {
+        playerRB.velocity = new Vector2(0, 0);
     }
 }
