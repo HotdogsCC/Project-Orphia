@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashSpeed = 0.1f;
     [SerializeField] private float dashDuration = 1f;
 
+    //Variables that affect the primary attack
     [Header("Primary Attack")]
     [SerializeField] private int pAttackDamage = 10;
     [SerializeField] private int pComboFinishDamage = 15;
@@ -65,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isStunned = false;
     public bool isTailingSucking = false;
 
+    //checks whether the player is on the ground
     bool IsGrounded()
     {
         return Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 0.51f), Vector2.down, 0.051f);
@@ -97,9 +99,10 @@ public class PlayerMovement : MonoBehaviour
         //During the dash, players shouldnt be able to control the character. This ensures this.
         if (!isStunned)
         {
-
+            //checks if the player is currently consuming health from an enemy
             if (!isTailingSucking)
             {
+                //checks if the player is currently in a dash animation
                 if (!isDashing)
                 {
                     //Dashs when Right Click is clicked
@@ -139,6 +142,7 @@ public class PlayerMovement : MonoBehaviour
 
         UpdateHealthAndRage();
 
+        //Sets camera to be locked on orphia
         mainCamera.transform.position = new Vector3(playerRB.transform.position.x + xOffSet, yOffSet, -10);
 
         ComboCountdown();
@@ -153,7 +157,7 @@ public class PlayerMovement : MonoBehaviour
         //Slows movement if both or no keys are held
         if ((!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A) && playerRB.velocity.x != 0) || (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.A)))
         {
-            //Checks what direction the player is moving
+            //Checks what direction the player is moving and sets new velocity based upon direction and decelleration 
             if (playerRB.velocity.x > 0)
             {
                 newXVelocity = (playerRB.velocity.x - decceleration * Time.deltaTime);
@@ -191,6 +195,7 @@ public class PlayerMovement : MonoBehaviour
         //Jumps
         if (Input.GetKeyDown(KeyCode.W))
         {
+            //Checks whether Orphia is on the ground. The jump will not consume a double jump if Orphia is grounded
             if (IsGrounded())
             {
                 playerRB.velocity = new Vector2(playerRB.velocity.x, 0);
@@ -252,7 +257,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Dashs in the direction the player is moving
-        if (Input.GetKey(KeyCode.A))
+        if (!isFacingRight)
         {
             playerRB.velocity = new Vector2(-dashDuration, 0);
         }
@@ -268,7 +273,7 @@ public class PlayerMovement : MonoBehaviour
         //spriteRenderer.material.SetFloat("_GrayscaleAmount", 0);
         vignette.intensity.value = (100 - health) * 0.005f;
 
-
+        //Assigns health bar colour and value based upon current health
         if(health <= 0)
         {
             Debug.Log("game over");
@@ -323,6 +328,7 @@ public class PlayerMovement : MonoBehaviour
             isTailingSucking = false;
             canPrimaryAttack = false;
             isStunned = true;
+            //Locks player into an animation during an attack, moves based upon direction
             if (isFacingRight)
             {
                 playerRB.velocity = new Vector2(topSpeed, playerRB.velocity.y);
@@ -331,10 +337,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 playerRB.velocity = new Vector2(-topSpeed, playerRB.velocity.y);
             }
+            //Checks that there are enemies in the hitbox
             if(enemiesInPHitbox.Count > 0)
             {
                 comboCount++;
                 comboCountdown = pTimeComboIsActive;
+                //Checks whether the character is at the end of the combo
                 if (comboCount >= pComboCount)
                 {
                     comboCount = 0;
@@ -354,6 +362,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 
             }
+            //Checks whether the player is facing a wall, destroys the wall if they are
             if(currentDestoryableWall != null)
             {
                 currentDestoryableWall.Destroyed();
@@ -363,6 +372,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //Responsible for running a function after a specified amount of time.
     private IEnumerator WaitAndThen(float seconds, string thing)
     {
         yield return new WaitForSeconds(seconds);
@@ -381,6 +391,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //responsible for counting down how long a combo lasts for
     private void ComboCountdown()
     {
         comboCountdown -= Time.deltaTime;
@@ -400,6 +411,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //removes health from character and applies knockback
     public void DamageInflicted(int damageAmount, float xKnockbackInflicted, float yKnockbackInflicted, Vector2 enemyPosition)
     {
         isTailingSucking = false;

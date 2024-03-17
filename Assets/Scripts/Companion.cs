@@ -7,6 +7,7 @@ public class Companion : MonoBehaviour
 {
     [SerializeField] Camera cam;
     [SerializeField] private GameObject player;
+    [SerializeField] float moveSpeed = 1f;
     private Vector3 targetPosition;
     private bool companionMouseFollow = false;
 
@@ -29,6 +30,6 @@ public class Companion : MonoBehaviour
         }
 
         targetPosition = new Vector3(targetPosition.x, targetPosition.y, 0);
-        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition, 0.1f);
+        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition, moveSpeed * Vector3.Distance(targetPosition, gameObject.transform.position) * Time.deltaTime);
     }
 }
