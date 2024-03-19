@@ -3343,6 +3343,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 519420031}
   player: {fileID: 2058036370}
+  moveSpeed: 1
 --- !u!212 &1701888637
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4225,17 +4226,17 @@ MonoBehaviour:
   decceleration: 150
   jumpStrength: 850
   dashSpeed: 10
-  dashDuration: 50
+  dashDuration: 40
   pAttackDamage: 10
   pComboFinishDamage: 30
-  pAttackXKnockback: 10
-  pAttackYKnockback: 9
-  pComboFinishXKnockback: 20
-  pComboFinishYKnockback: 15
+  pAttackXKnockback: 5
+  pAttackYKnockback: 5
+  pComboFinishXKnockback: 10
+  pComboFinishYKnockback: 10
   pAttackCooldown: 0.3
   pComboCount: 3
   pTimeComboIsActive: 1
-  stunTime: 1
+  stunTime: 0.65
   enemiesInPHitbox: []
   currentDestoryableWall: {fileID: 0}
   isFacingRight: 0
@@ -4307,6 +4308,14 @@ PrefabInstance:
     - target: {fileID: 697475876008288899, guid: 9803a7e8aa7d6f540a67752c2eef4d72, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 697475876008288900, guid: 9803a7e8aa7d6f540a67752c2eef4d72, type: 3}
+      propertyPath: xKnockbackDealt
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 697475876008288900, guid: 9803a7e8aa7d6f540a67752c2eef4d72, type: 3}
+      propertyPath: yKnockbackDealt
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 697475876008288901, guid: 9803a7e8aa7d6f540a67752c2eef4d72, type: 3}
       propertyPath: m_RootOrder
