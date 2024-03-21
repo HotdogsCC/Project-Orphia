@@ -3343,6 +3343,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 519420031}
   player: {fileID: 2058036370}
+  moveSpeed: 5
 --- !u!212 &1701888637
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3673,6 +3674,91 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1754041519}
   m_CullTransparentMesh: 1
+--- !u!1001 &1806540118
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4834402163542486560, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: m_Name
+      value: Dialogue Trigger Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834402163542486561, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: messageText
+      value: i want orphia's tail 7 inches up my ass
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834402163542486561, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: messages.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834402163542486561, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: messages.Array.data[0]
+      value: i want to fuck orphia
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834402163542486561, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: messages.Array.data[1]
+      value: i want her tail 7 inches up my ass
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834402163542486561, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: messages.Array.data[2]
+      value: i am not kidding
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834402163542486561, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: messages.Array.data[3]
+      value: (i am totally kidding)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834402163542486561, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: messages.Array.data[4]
+      value: i am a loyal fucktoy to garrett
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834402163542486563, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: m_RootOrder
+      value: 29
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834402163542486563, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -36.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834402163542486563, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834402163542486563, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834402163542486563, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834402163542486563, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834402163542486563, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834402163542486563, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834402163542486563, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834402163542486563, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834402163542486563, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 64dbfbd6fbd6de44897a8223f16b7e2d, type: 3}
 --- !u!1 &1864478403
 GameObject:
   m_ObjectHideFlags: 0
@@ -4232,7 +4318,8 @@ MonoBehaviour:
   pAttackYKnockback: 9
   pComboFinishXKnockback: 20
   pComboFinishYKnockback: 15
-  pAttackCooldown: 0.3
+  pAttackDuration: 0.3
+  pAttackSpeed: 10
   pComboCount: 3
   pTimeComboIsActive: 1
   stunTime: 1
