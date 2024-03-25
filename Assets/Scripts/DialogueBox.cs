@@ -9,15 +9,21 @@ public class DialogueBox : MonoBehaviour
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private GameObject gb;
     [SerializeField] private PlayerMovement player;
+    private Animator animator;
     private List<string> messages = new List<string>();
     private int currentMessageCount = 0;
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
     public void SetMessages(List<string> messageBoxMsgs)
     {
-        Time.timeScale = 0;
+        player.ResetVelocity();
+        player.GetComponent<PlayerMovement>().enabled = false;
         currentMessageCount = 0;
         messages = messageBoxMsgs;
         text.text = messages[currentMessageCount];
-        gb.SetActive(true);
+        animator.SetBool("On", true);
     }
 
     private void LoadNextMessage()
@@ -25,7 +31,8 @@ public class DialogueBox : MonoBehaviour
         currentMessageCount++;
         if(currentMessageCount+1 > messages.Count)
         {
-            gb.SetActive(false);
+            player.GetComponent<PlayerMovement>().enabled = true;
+            animator.SetBool("On", false);
             Time.timeScale = 1;
         }
         else
