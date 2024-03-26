@@ -42,7 +42,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float pAttackYKnockback = 1;
     [SerializeField] private float pComboFinishXKnockback = 1;
     [SerializeField] private float pComboFinishYKnockback = 1;
-    [SerializeField] private float pAttackCooldown = 0.3f;
+    [SerializeField] private float pAttackDuration = 0.3f;
+    [SerializeField] private float pAttackSpeed = 10f;
     [SerializeField] private int pComboCount = 3;
     [SerializeField] private float pTimeComboIsActive = 0.5f;
 
@@ -59,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
     private bool canPrimaryAttack = true;
     public List<Enemy> enemiesInPHitbox;
     public DestroyableWall currentDestoryableWall;
-    public bool isFacingRight = true;
+    public bool isFacingRight = false;
     private float comboCountdown = 0;
     private int comboCount = 0;
     private float damageDealtMultiplier = 1;
@@ -181,13 +182,13 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKey(KeyCode.D))
             {
                 newXVelocity = (playerRB.velocity.x + acceleration * Time.deltaTime);
-                primaryAttackHitbox.transform.localPosition = new Vector2(1, 0);
+                transform.localScale = new Vector3(-1, 1, 1);
                 isFacingRight = true;
             }
             if (Input.GetKey(KeyCode.A))
             {
                 newXVelocity = (playerRB.velocity.x - acceleration * Time.deltaTime);
-                primaryAttackHitbox.transform.localPosition = new Vector2(-1, 0);
+                transform.localScale = new Vector3(1, 1, 1);
                 isFacingRight = false;
             }
         }
@@ -331,11 +332,11 @@ public class PlayerMovement : MonoBehaviour
             //Locks player into an animation during an attack, moves based upon direction
             if (isFacingRight)
             {
-                playerRB.velocity = new Vector2(topSpeed, playerRB.velocity.y);
+                playerRB.velocity = new Vector2(pAttackSpeed, playerRB.velocity.y);
             }
             else
             {
-                playerRB.velocity = new Vector2(-topSpeed, playerRB.velocity.y);
+                playerRB.velocity = new Vector2(-pAttackSpeed, playerRB.velocity.y);
             }
             //Checks that there are enemies in the hitbox
             if(enemiesInPHitbox.Count > 0)
@@ -368,7 +369,7 @@ public class PlayerMovement : MonoBehaviour
                 currentDestoryableWall.Destroyed();
                 currentDestoryableWall = null;
             }
-            StartCoroutine(WaitAndThen(pAttackCooldown, "canPrimaryAttack"));
+            StartCoroutine(WaitAndThen(pAttackDuration, "canPrimaryAttack"));
         }
     }
 
@@ -418,6 +419,7 @@ public class PlayerMovement : MonoBehaviour
         health -= damageAmount;
         UpdateHealthAndRage();
         isStunned = true;
+        isDashing = false;
         ResetVelocity();
         if (gameObject.transform.position.x >= enemyPosition.x)
         {
