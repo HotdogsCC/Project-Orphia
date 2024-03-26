@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DialogueTrigger : MonoBehaviour
 {
-    [SerializeField] private List<string> messages = new List<string>();
+    [SerializeField] private string messageText = "Change me!!";
     private DialogueBox dialogueBox;
 
     private void Start()
@@ -17,8 +17,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
-            dialogueBox.SetMessages(messages);
-            Destroy(this);
+            dialogueBox.SetText(messageText);
         }
     }
 }

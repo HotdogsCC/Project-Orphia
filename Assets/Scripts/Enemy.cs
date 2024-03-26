@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class Enemy : MonoBehaviour
 {
@@ -24,8 +23,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject corpse;
     [SerializeField] TextMeshProUGUI hText;
     private bool isTailSucking = false;
-    public bool isStunned = false;
-    private int stunCount = 0;
     public void Destroyed()
     {
         player.isStunned = false;
@@ -42,7 +39,6 @@ public class Enemy : MonoBehaviour
     {
         enemyRB = GetComponent<Rigidbody2D>();
         player = FindAnyObjectByType<PlayerMovement>();
-        
     }
 
     private void Update()
@@ -52,15 +48,11 @@ public class Enemy : MonoBehaviour
             Destroyed();
         }
         hText.text = health.ToString();
-        
     }
 
     //Called by PlayerMovement script
     public void HitEnemy(int damageDealt, float xKnockbackDealt, float yKnockbackDealt)
     {
-        isStunned = true;
-        stunCount++;
-        StartCoroutine(WaitAndThen(0.5f, "stun"));
         Instantiate(hurtParticles, gameObject.transform.position, Quaternion.identity);
         health += -damageDealt;
         if (player.isFacingRight)
@@ -123,24 +115,9 @@ public class Enemy : MonoBehaviour
                     HealthConsumed();
                 }
                 break;
-            case "stun":
-                stunCount--;
-                if (stunCount == 0)
-                {
-                    isStunned = false;
-                }
-                break;
             default:
                 Debug.LogError("Thing attached to WaitAndThen is not valid");
                 break;
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.transform.tag == "Player")
-        {
-            player.DamageInflicted(damage, xKnockbackDealt, yKnockbackDealt, gameObject.transform.position);
         }
     }
 
