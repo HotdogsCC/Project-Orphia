@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Enemy : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int damage = 25;
     [SerializeField] private float xKnockbackDealt = 5;
     [SerializeField] private float yKnockbackDealt = 5;
+    [SerializeField] private float enemyMoveSpeed = 1;
     [SerializeField] EnemyType enemyType = EnemyType.Small;
     private Rigidbody2D enemyRB;
     private PlayerMovement player;
@@ -23,6 +25,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject corpse;
     [SerializeField] TextMeshProUGUI hText;
     private bool isTailSucking = false;
+    private bool hit = false;
     public void Destroyed()
     {
         player.isStunned = false;
@@ -39,6 +42,7 @@ public class Enemy : MonoBehaviour
     {
         enemyRB = GetComponent<Rigidbody2D>();
         player = FindAnyObjectByType<PlayerMovement>();
+        
     }
 
     private void Update()
@@ -48,11 +52,17 @@ public class Enemy : MonoBehaviour
             Destroyed();
         }
         hText.text = health.ToString();
+        if (!hit)
+        {
+            enemyRB.velocity = new Vector2(enemyMoveSpeed, enemyRB.velocity.y);
+        }
+        
     }
 
     //Called by PlayerMovement script
     public void HitEnemy(int damageDealt, float xKnockbackDealt, float yKnockbackDealt)
     {
+        hit = true;
         Instantiate(hurtParticles, gameObject.transform.position, Quaternion.identity);
         health += -damageDealt;
         if (player.isFacingRight)
@@ -118,6 +128,14 @@ public class Enemy : MonoBehaviour
             default:
                 Debug.LogError("Thing attached to WaitAndThen is not valid");
                 break;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.transform.tag == "Player")
+        {
+            player.DamageInflicted(damage, xKnockbackDealt, yKnockbackDealt, gameObject.transform.position);
         }
     }
 

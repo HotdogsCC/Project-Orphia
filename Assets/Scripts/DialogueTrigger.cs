@@ -18,6 +18,7 @@ public class DialogueTrigger : MonoBehaviour
         if(collision.tag == "Player")
         {
             dialogueBox.SetMessages(messages);
+            Destroy(this);
         }
     }
 }
