@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
     private bool canPrimaryAttack = true;
     public List<Enemy> enemiesInPHitbox;
     public DestroyableWall currentDestoryableWall;
-    public bool isFacingRight = true;
+    public bool isFacingRight = false;
     private float comboCountdown = 0;
     private int comboCount = 0;
     private float damageDealtMultiplier = 1;
@@ -182,13 +182,13 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKey(KeyCode.D))
             {
                 newXVelocity = (playerRB.velocity.x + acceleration * Time.deltaTime);
-                primaryAttackHitbox.transform.localPosition = new Vector2(1, 0);
+                transform.localScale = new Vector3(-1, 1, 1);
                 isFacingRight = true;
             }
             if (Input.GetKey(KeyCode.A))
             {
                 newXVelocity = (playerRB.velocity.x - acceleration * Time.deltaTime);
-                primaryAttackHitbox.transform.localPosition = new Vector2(-1, 0);
+                transform.localScale = new Vector3(1, 1, 1);
                 isFacingRight = false;
             }
         }
@@ -419,6 +419,7 @@ public class PlayerMovement : MonoBehaviour
         health -= damageAmount;
         UpdateHealthAndRage();
         isStunned = true;
+        isDashing = false;
         ResetVelocity();
         if (gameObject.transform.position.x >= enemyPosition.x)
         {

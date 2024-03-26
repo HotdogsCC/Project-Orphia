@@ -16,7 +16,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int damage = 25;
     [SerializeField] private float xKnockbackDealt = 5;
     [SerializeField] private float yKnockbackDealt = 5;
-    [SerializeField] private float enemyMoveSpeed = 1;
     [SerializeField] EnemyType enemyType = EnemyType.Small;
     private Rigidbody2D enemyRB;
     private PlayerMovement player;
@@ -25,7 +24,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject corpse;
     [SerializeField] TextMeshProUGUI hText;
     private bool isTailSucking = false;
-    private bool hit = false;
+    public bool isStunned = false;
+    private int stunCount = 0;
     public void Destroyed()
     {
         player.isStunned = false;
@@ -52,17 +52,15 @@ public class Enemy : MonoBehaviour
             Destroyed();
         }
         hText.text = health.ToString();
-        if (!hit)
-        {
-            enemyRB.velocity = new Vector2(enemyMoveSpeed, enemyRB.velocity.y);
-        }
         
     }
 
     //Called by PlayerMovement script
     public void HitEnemy(int damageDealt, float xKnockbackDealt, float yKnockbackDealt)
     {
-        hit = true;
+        isStunned = true;
+        stunCount++;
+        StartCoroutine(WaitAndThen(0.5f, "stun"));
         Instantiate(hurtParticles, gameObject.transform.position, Quaternion.identity);
         health += -damageDealt;
         if (player.isFacingRight)
@@ -123,6 +121,13 @@ public class Enemy : MonoBehaviour
                 if (isTailSucking)
                 {
                     HealthConsumed();
+                }
+                break;
+            case "stun":
+                stunCount--;
+                if (stunCount == 0)
+                {
+                    isStunned = false;
                 }
                 break;
             default:
