@@ -15,12 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     [SerializeField] private PostProcessVolume ppv;
     private Vignette vignette;
-    [SerializeField] GameObject mainCamera;
     [SerializeField] GameObject primaryAttackHitbox;
-
-    [Header("Camera Control")]
-    [SerializeField] private float xOffSet = 0f;
-    [SerializeField] private float yOffSet = 0f;
 
     //Variables that affect the feel of the player movement
     [Header("Movement")]
@@ -33,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Dash")]
     [SerializeField] private float dashSpeed = 0.1f;
     [SerializeField] private float dashDuration = 1f;
+    [SerializeField] private float dashCooldown = 0.5f;
 
     //Variables that affect the primary attack
     [Header("Primary Attack")]
@@ -43,7 +39,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float pComboFinishXKnockback = 1;
     [SerializeField] private float pComboFinishYKnockback = 1;
     [SerializeField] private float pAttackDuration = 0.3f;
-    [SerializeField] private float pAttackSpeed = 10f;
     [SerializeField] private int pComboCount = 3;
     [SerializeField] private float pTimeComboIsActive = 0.5f;
 
@@ -56,7 +51,6 @@ public class PlayerMovement : MonoBehaviour
     private float dashTime = 0;
     private bool canDoubleJump = true;
     private int health = 100;
-    private int rageLevel = 0;
     private bool canPrimaryAttack = true;
     public List<Enemy> enemiesInPHitbox;
     public DestroyableWall currentDestoryableWall;
@@ -66,11 +60,12 @@ public class PlayerMovement : MonoBehaviour
     private float damageDealtMultiplier = 1;
     public bool isStunned = false;
     public bool isTailingSucking = false;
+    private bool canDash = true;
 
     //checks whether the player is on the ground
     bool IsGrounded()
     {
-        return Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 0.51f), Vector2.down, 0.051f);
+        return Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 2.01f), Vector2.down, 0.051f);
     }
 
     [Header("Objects")]
@@ -107,9 +102,11 @@ public class PlayerMovement : MonoBehaviour
                 if (!isDashing)
                 {
                     //Dashs when Right Click is clicked
-                    if (Input.GetMouseButtonDown(1))
+                    if (Input.GetMouseButtonDown(1) && canDash)
                     {
                         isDashing = true;
+                        canDash = false;
+                        StartCoroutine(WaitAndThen(dashCooldown, "dash"));
                         DashCalculations();
                     }
                     else
@@ -136,15 +133,7 @@ public class PlayerMovement : MonoBehaviour
             health += -1;
         }
 
-        vText.text = "current velocity: " + Mathf.RoundToInt(playerRB.velocity.x).ToString(); //Temp, remove later. shows the velocity on screen
-        hText.text = "current health: " + health.ToString(); //Temp, remove later. shows the health on screen
-        rText.text = "current rage lvl: " + rageLevel.ToString(); //Temp, remove later. shows the health on screen
-        cText.text = "current combo count: " + comboCount.ToString(); //Temp, remove later. shows combo count
-
         UpdateHealthAndRage();
-
-        //Sets camera to be locked on orphia
-        mainCamera.transform.position = new Vector3(playerRB.transform.position.x + xOffSet, yOffSet, -10);
 
         ComboCountdown();
     }
@@ -194,7 +183,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Jumps
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W))
         {
             //Checks whether Orphia is on the ground. The jump will not consume a double jump if Orphia is grounded
             if (IsGrounded())
@@ -283,14 +272,12 @@ public class PlayerMovement : MonoBehaviour
         else if(health < 15)
         {
             healthBarColour.color = new Color(0.2358491f, 0.007787474f, 0.007787474f);
-            rageLevel = 4;
             damageDealtMultiplier = 2;
             healthBar.value = Mathf.RoundToInt(health * 19 / 14);
         }
         else if(health < 40)
         {
             healthBarColour.color = new Color(0.7735849f, 0.0204165f, 0.0960312f);
-            rageLevel = 3;
             damageDealtMultiplier = 2;
             healthBar.value = Mathf.RoundToInt(health * 19 / 24 + 8.125f);
             if(health == 15)
@@ -301,21 +288,18 @@ public class PlayerMovement : MonoBehaviour
         else if(health < 60)
         {
             healthBarColour.color = new Color(0.772549f, 0.3592402f, 0.1215686f);
-            rageLevel = 2;
             damageDealtMultiplier = 1.5f;
             healthBar.value = health;
         }
         else if(health < 80)
         {
             healthBarColour.color = new Color(0.864151f, 0.7191203f, 0.09732112f);
-            rageLevel = 1;
             damageDealtMultiplier = 1.25f;
             healthBar.value = health;
         }
         else
         {
             healthBarColour.color = new Color(0.5038894f, 0.7647059f, 0.09803921f);
-            rageLevel = 0;
             damageDealtMultiplier = 1;
             healthBar.value = health;
         }
@@ -328,6 +312,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isTailingSucking = false;
             canPrimaryAttack = false;
+            /*
             isStunned = true;
             //Locks player into an animation during an attack, moves based upon direction
             if (isFacingRight)
@@ -338,6 +323,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 playerRB.velocity = new Vector2(-pAttackSpeed, playerRB.velocity.y);
             }
+            */
             //Checks that there are enemies in the hitbox
             if(enemiesInPHitbox.Count > 0)
             {
@@ -381,10 +367,13 @@ public class PlayerMovement : MonoBehaviour
         {
             case "canPrimaryAttack":
                 canPrimaryAttack = true;
-                isStunned = false;
+                //isStunned = false;
                 break;
             case "stun":
                 isStunned = false;
+                break;
+            case "dash":
+                canDash = true;
                 break;
             default:
                 Debug.LogError("Thing attached to WaitAndThen is not valid");

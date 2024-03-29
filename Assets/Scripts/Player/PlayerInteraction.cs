@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    private bool hasKey = false; //stores whether the key has been picked up
+    public bool hasKey = false; //stores whether the key has been picked up
     public KeyWall currentKeyWall; //stores what wall is currently being faced
     [SerializeField] private PlayerMovement player; //refernce to player movement script
     private EnemyCorpse enemyCorpse; //stores what enemy corpse is currently being collided with
@@ -16,15 +16,19 @@ public class PlayerInteraction : MonoBehaviour
     }
     private void Interact()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.E))
         {
             //runs when the player interacts with an unlockable wall and has a key for it
-            if(currentKeyWall != null && hasKey)
+            if (currentKeyWall != null && hasKey)
             {
                 currentKeyWall.Unlocked();
                 currentKeyWall = null;
                 hasKey = false;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
             //runs when the player consumes an enemy corpse
             if(enemyCorpse != null)
             {

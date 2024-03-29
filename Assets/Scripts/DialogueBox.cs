@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.XR;
+using UnityEditor;
 
 public class DialogueBox : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class DialogueBox : MonoBehaviour
     private Animator animator;
     private List<string> messages = new List<string>();
     private int currentMessageCount = 0;
+    
+    private List<char> charactersInMessage = new List<char>();
+
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -22,7 +26,13 @@ public class DialogueBox : MonoBehaviour
         player.GetComponent<PlayerMovement>().enabled = false;
         currentMessageCount = 0;
         messages = messageBoxMsgs;
-        text.text = messages[currentMessageCount];
+
+        foreach(char c in messages[currentMessageCount])
+        {
+            charactersInMessage.Add(c);
+        }
+        text.text = null;
+        StartCoroutine(JustWaitAMoForTheAnimation());
         animator.SetBool("On", true);
     }
 
@@ -37,7 +47,14 @@ public class DialogueBox : MonoBehaviour
         }
         else
         {
-            text.text = messages[currentMessageCount];
+            StopAllCoroutines();
+            charactersInMessage = new List<char>();
+            foreach (char c in messages[currentMessageCount])
+            {
+                charactersInMessage.Add(c);
+            }
+            text.text = null;
+            StartCoroutine(DisplayCharacters());
         }
     }
 
@@ -46,6 +63,21 @@ public class DialogueBox : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             LoadNextMessage();
+        }
+    }
+
+    IEnumerator JustWaitAMoForTheAnimation()
+    {
+        yield return new WaitForSeconds(1);
+        StartCoroutine(DisplayCharacters());
+    }
+
+    IEnumerator DisplayCharacters()
+    {
+        foreach (char c in charactersInMessage)
+        {
+            text.text = text.text + c;
+            yield return new WaitForSeconds(0.01f);
         }
     }
 }

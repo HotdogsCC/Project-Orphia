@@ -140,6 +140,7 @@ public class Enemy : MonoBehaviour
     {
         if(collision.transform.tag == "Player")
         {
+            isTailSucking = false;
             player.DamageInflicted(damage, xKnockbackDealt, yKnockbackDealt, gameObject.transform.position);
         }
     }
