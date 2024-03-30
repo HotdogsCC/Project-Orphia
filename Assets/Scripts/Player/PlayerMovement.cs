@@ -63,9 +63,27 @@ public class PlayerMovement : MonoBehaviour
     private bool canDash = true;
 
     //checks whether the player is on the ground
-    bool IsGrounded()
+    RaycastHit2D IsGrounded()
     {
         return Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 2.01f), Vector2.down, 0.051f);
+    }
+    bool CanJump()
+    {
+        if (IsGrounded())
+        {
+            if(IsGrounded().transform.tag == "jumpable")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 
     [Header("Objects")]
@@ -86,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         //If you touch the floor, you can double jump again
-        if (IsGrounded())
+        if (CanJump())
         {
             canDoubleJump = true;
         }
@@ -186,7 +204,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W))
         {
             //Checks whether Orphia is on the ground. The jump will not consume a double jump if Orphia is grounded
-            if (IsGrounded())
+            if (CanJump())
             {
                 playerRB.velocity = new Vector2(playerRB.velocity.x, 0);
                 jumpVector = new Vector2(0, jumpStrength);
