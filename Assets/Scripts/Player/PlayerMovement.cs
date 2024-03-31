@@ -359,7 +359,15 @@ public class PlayerMovement : MonoBehaviour
                     comboCount = 0;
                     foreach (Enemy enemy in enemiesInPHitbox)
                     {
-                        enemy.HitEnemy((int)(pComboFinishDamage * damageDealtMultiplier), pComboFinishXKnockback * Mathf.Abs(playerRB.velocity.x), pComboFinishYKnockback);
+                        if(playerRB.velocity.x > 11)
+                        {
+                            enemy.HitEnemy((int)(pComboFinishDamage * damageDealtMultiplier), pComboFinishXKnockback * Mathf.Abs(playerRB.velocity.x), pComboFinishYKnockback);
+                        }
+                        else
+                        {
+                            enemy.HitEnemy((int)(pComboFinishDamage * damageDealtMultiplier), pComboFinishXKnockback * 10, pComboFinishYKnockback);
+                        }
+                        
                         enemy.EndTailSucking();
                     }
                 }
@@ -367,7 +375,14 @@ public class PlayerMovement : MonoBehaviour
                 {
                     foreach (Enemy enemy in enemiesInPHitbox)
                     {
-                        enemy.HitEnemy((int)(pAttackDamage * damageDealtMultiplier), pAttackXKnockback * Mathf.Abs(playerRB.velocity.x), pAttackYKnockback);
+                        if (playerRB.velocity.x > 11)
+                        {
+                            enemy.HitEnemy((int)(pAttackDamage * damageDealtMultiplier), pAttackXKnockback * Mathf.Abs(playerRB.velocity.x), pAttackYKnockback);
+                        }
+                        else
+                        {
+                            enemy.HitEnemy((int)(pAttackDamage * damageDealtMultiplier), pAttackXKnockback * 10, pAttackYKnockback);
+                        }
                         enemy.EndTailSucking();
                     }
                 }

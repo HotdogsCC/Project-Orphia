@@ -908,6 +908,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 879422795960059612, guid: 120b065291a331945aa3d02069fe8aaa, type: 3}
+      propertyPath: movingRight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 879422795960059614, guid: 120b065291a331945aa3d02069fe8aaa, type: 3}
       propertyPath: m_Name
       value: Slug (1)
