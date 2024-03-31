@@ -44,6 +44,9 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Other")]
     [SerializeField] private float stunTime = 1f;
+    private AudioSource aSource;
+    [SerializeField] private AudioClip hitSFX;
+    [SerializeField] private AudioClip missSFX;
 
 
     //Important data
@@ -100,6 +103,7 @@ public class PlayerMovement : MonoBehaviour
         //Assigns components
         playerRB = GetComponent<Rigidbody2D>();
         vignette = ppv.profile.GetSetting<Vignette>();
+        aSource = GetComponent<AudioSource>();
     }
     private void Update()
     {
@@ -345,6 +349,8 @@ public class PlayerMovement : MonoBehaviour
             //Checks that there are enemies in the hitbox
             if(enemiesInPHitbox.Count > 0)
             {
+                aSource.clip = hitSFX;
+                
                 comboCount++;
                 comboCountdown = pTimeComboIsActive;
                 //Checks whether the character is at the end of the combo
@@ -353,7 +359,7 @@ public class PlayerMovement : MonoBehaviour
                     comboCount = 0;
                     foreach (Enemy enemy in enemiesInPHitbox)
                     {
-                        enemy.HitEnemy((int)(pComboFinishDamage * damageDealtMultiplier), pComboFinishXKnockback, pComboFinishYKnockback);
+                        enemy.HitEnemy((int)(pComboFinishDamage * damageDealtMultiplier), pComboFinishXKnockback * Mathf.Abs(playerRB.velocity.x), pComboFinishYKnockback);
                         enemy.EndTailSucking();
                     }
                 }
@@ -361,14 +367,19 @@ public class PlayerMovement : MonoBehaviour
                 {
                     foreach (Enemy enemy in enemiesInPHitbox)
                     {
-                        enemy.HitEnemy((int)(pAttackDamage * damageDealtMultiplier), pAttackXKnockback, pAttackYKnockback);
+                        enemy.HitEnemy((int)(pAttackDamage * damageDealtMultiplier), pAttackXKnockback * Mathf.Abs(playerRB.velocity.x), pAttackYKnockback);
                         enemy.EndTailSucking();
                     }
                 }
                 
             }
+            else
+            {
+                aSource.clip = missSFX;
+            }
+            aSource.Play();
             //Checks whether the player is facing a wall, destroys the wall if they are
-            if(currentDestoryableWall != null)
+            if (currentDestoryableWall != null)
             {
                 currentDestoryableWall.Destroyed();
                 currentDestoryableWall = null;

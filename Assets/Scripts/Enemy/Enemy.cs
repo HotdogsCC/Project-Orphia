@@ -60,7 +60,6 @@ public class Enemy : MonoBehaviour
     {
         isStunned = true;
         stunCount++;
-        StartCoroutine(WaitAndThen(0.5f, "stun"));
         Instantiate(hurtParticles, gameObject.transform.position, Quaternion.identity);
         health += -damageDealt;
         if (player.isFacingRight)
@@ -77,6 +76,7 @@ public class Enemy : MonoBehaviour
     public void BeginTailSucking()
     {
         isTailSucking = true;
+        isStunned = true;
         TailSucking();
     }
 
@@ -87,7 +87,8 @@ public class Enemy : MonoBehaviour
             HealthConsumed();
             if (Random.Range(1, 10) <= 2)
             {
-                isTailSucking = false;
+                EndTailSucking();
+                EndStun();
                 player.DamageInflicted(damage, xKnockbackDealt, yKnockbackDealt, gameObject.transform.position);
             }
             else
@@ -99,6 +100,10 @@ public class Enemy : MonoBehaviour
     public void EndTailSucking()
     {
         isTailSucking = false;
+    }
+    public void EndStun()
+    {
+        isStunned = false;
     }
 
 
@@ -124,7 +129,6 @@ public class Enemy : MonoBehaviour
                 }
                 break;
             case "stun":
-                stunCount--;
                 if (stunCount == 0)
                 {
                     isStunned = false;
@@ -138,10 +142,15 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.transform.tag == "Player")
+        if (collision.transform.tag == "Player")
         {
             isTailSucking = false;
             player.DamageInflicted(damage, xKnockbackDealt, yKnockbackDealt, gameObject.transform.position);
+        }
+        if (collision.transform.tag == "jumpable")
+        {
+            stunCount = 0;
+            StartCoroutine(WaitAndThen(0.5f, "stun"));
         }
     }
 
