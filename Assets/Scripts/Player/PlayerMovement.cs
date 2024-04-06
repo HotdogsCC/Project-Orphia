@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Objects")]
     private Rigidbody2D playerRB;
     [SerializeField] GameObject doubleJumpParticles;
+    [SerializeField] GameObject hurtParticles;
+    [SerializeField] GameObject deathParticles;
     private SpriteRenderer spriteRenderer;
     [SerializeField] private PostProcessVolume ppv;
     private Vignette vignette;
@@ -43,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float pTimeComboIsActive = 0.5f;
 
     [Header("Other")]
+    [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private float stunTime = 1f;
     private AudioSource aSource;
     [SerializeField] private AudioClip hitSFX;
@@ -104,6 +107,7 @@ public class PlayerMovement : MonoBehaviour
         playerRB = GetComponent<Rigidbody2D>();
         vignette = ppv.profile.GetSetting<Vignette>();
         aSource = GetComponent<AudioSource>();
+        //gameOverScreen = GameObject.FindGameObjectWithTag("game over");
     }
     private void Update()
     {
@@ -288,7 +292,9 @@ public class PlayerMovement : MonoBehaviour
         //Assigns health bar colour and value based upon current health
         if(health <= 0)
         {
-            Debug.Log("game over");
+            gameOverScreen.SetActive(true);
+            Instantiate(deathParticles, playerRB.transform.position, Quaternion.identity);
+            Destroy(gameObject);
             healthBar.value = 0;
         }
         else if(health < 15)

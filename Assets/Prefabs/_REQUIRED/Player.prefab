@@ -183,6 +183,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doubleJumpParticles: {fileID: 1692039631834630048, guid: 4974c1c36485666488c71acfc77cfa9e, type: 3}
+  hurtParticles: {fileID: 5674588539894840908, guid: daf24ab4d0239494ebd0ad09401408b9, type: 3}
+  deathParticles: {fileID: 2660482614438199520, guid: 0e6f81fca4c2b1d4fbc45f081607c8e8, type: 3}
   ppv: {fileID: 0}
   primaryAttackHitbox: {fileID: 3765544348130538725}
   topSpeed: 10
@@ -201,6 +203,7 @@ MonoBehaviour:
   pAttackDuration: 0.3
   pComboCount: 3
   pTimeComboIsActive: 1
+  gameOverScreen: {fileID: 0}
   stunTime: 1
   hitSFX: {fileID: 8300000, guid: 66a8993c530d8404e960fe4fed32ab05, type: 3}
   missSFX: {fileID: 8300000, guid: 88a8a5900f18e2e43855d4e895347447, type: 3}

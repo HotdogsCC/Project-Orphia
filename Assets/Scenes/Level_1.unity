@@ -1302,6 +1302,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1403789568}
     - target: {fileID: 3765544347163897079, guid: 2d4bb6151c537484683359c3fc1bd2c4, type: 3}
+      propertyPath: gameOverScreen
+      value: 
+      objectReference: {fileID: 408341531}
+    - target: {fileID: 3765544347163897079, guid: 2d4bb6151c537484683359c3fc1bd2c4, type: 3}
       propertyPath: healthBarColour
       value: 
       objectReference: {fileID: 968472124}
@@ -1502,6 +1506,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &408341531 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1977160685, guid: 9818a43747f944040898cd6c93ded497, type: 3}
+  m_PrefabInstance: {fileID: 2071717434}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &417508925
 GameObject:
   m_ObjectHideFlags: 0
@@ -6614,6 +6623,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 709480767, guid: 9818a43747f944040898cd6c93ded497, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Level_1
+      objectReference: {fileID: 0}
     - target: {fileID: 7003042394281779090, guid: 9818a43747f944040898cd6c93ded497, type: 3}
       propertyPath: player
       value: 
