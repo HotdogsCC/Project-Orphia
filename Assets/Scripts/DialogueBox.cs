@@ -4,14 +4,17 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.XR;
 using UnityEditor;
+using UnityEngine.UI;
 
 public class DialogueBox : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private GameObject gb;
     [SerializeField] private PlayerMovement player;
+    [SerializeField] private Image characterSpeaking;
     private Animator animator;
     private List<string> messages = new List<string>();
+    private List<Sprite> image = new List<Sprite>();
     private int currentMessageCount = 0;
     
     private List<char> charactersInMessage = new List<char>();
@@ -20,18 +23,21 @@ public class DialogueBox : MonoBehaviour
     {
         animator = GetComponent<Animator>();
     }
-    public void SetMessages(List<string> messageBoxMsgs)
+    public void SetMessages(List<string> messageBoxMsgs, List<Sprite> images)
     {
         charactersInMessage = new List<char>();
         player.ResetVelocity();
         player.GetComponent<PlayerMovement>().enabled = false;
         currentMessageCount = 0;
         messages = messageBoxMsgs;
+        image = images;
 
-        foreach(char c in messages[currentMessageCount])
+        characterSpeaking.sprite = image[currentMessageCount];
+        foreach (char c in messages[currentMessageCount])
         {
             charactersInMessage.Add(c);
         }
+
         text.text = null;
         StartCoroutine(JustWaitAMoForTheAnimation());
         animator.SetBool("On", true);
@@ -56,6 +62,7 @@ public class DialogueBox : MonoBehaviour
             }
             text.text = null;
             StartCoroutine(DisplayCharacters());
+            characterSpeaking.sprite = image[currentMessageCount];
         }
     }
 

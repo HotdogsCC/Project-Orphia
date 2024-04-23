@@ -6,6 +6,7 @@ using UnityEngine;
 public class DialogueTrigger : MonoBehaviour
 {
     [SerializeField] private List<string> messages = new List<string>();
+    [SerializeField] private List<Sprite> images = new List<Sprite>();
     private DialogueBox dialogueBox;
 
     private void Start()
@@ -17,7 +18,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
-            dialogueBox.SetMessages(messages);
+            dialogueBox.SetMessages(messages, images);
             Destroy(this);
         }
     }

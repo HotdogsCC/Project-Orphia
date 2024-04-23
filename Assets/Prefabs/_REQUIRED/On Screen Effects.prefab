@@ -1241,7 +1241,7 @@ GameObject:
   - component: {fileID: 7003042394074909218}
   - component: {fileID: 7003042394074909219}
   m_Layer: 5
-  m_Name: Orphia
+  m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1435,6 +1435,7 @@ MonoBehaviour:
   text: {fileID: 7003042394726845857}
   gb: {fileID: 7003042395399360429}
   player: {fileID: 0}
+  characterSpeaking: {fileID: 7003042394074909219}
 --- !u!95 &7003042394281779093
 Animator:
   serializedVersion: 5
