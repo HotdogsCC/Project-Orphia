@@ -12,7 +12,9 @@ public class Slug : MonoBehaviour
     [SerializeField] private float jumpCooldown = 5f;
     [SerializeField] private bool movingRight = true;
     private bool canJump = true;
+    private bool isAgro = false;
     [SerializeField] private RectTransform healthDisplay;
+
 
     // Update is called once per frame
     void Update()
@@ -34,7 +36,23 @@ public class Slug : MonoBehaviour
             }
         }
 
+        if (isAgro)
+        {
+            if (enemyClass.GetComponent<Rigidbody2D>().velocity.y == 0)
+            {
+                PlayerMovement player = FindObjectOfType<PlayerMovement>();
+                if(player.transform.position.x > transform.position.x)
+                {
+                    movingRight = true;
+                }
+                else
+                {
+                    movingRight = false;    
+                }
+            }
+        }
     }
+
 
     public void Jump()
     {
@@ -42,6 +60,7 @@ public class Slug : MonoBehaviour
         {
             canJump = false;
             enemyClass.isStunned = true;
+            isAgro = true;
             StartCoroutine(WaitAndThen(timeBeforeJump, "jump"));
             StartCoroutine(WaitAndThen(jumpCooldown, "jumpCooldown"));
         }
@@ -68,4 +87,13 @@ public class Slug : MonoBehaviour
                 break;
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.transform.tag == "wall")
+        {
+            movingRight = !movingRight;
+        }
+    }
+
 }

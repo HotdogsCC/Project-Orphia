@@ -6714,6 +6714,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Destroyable Wall
       objectReference: {fileID: 0}
+    - target: {fileID: 4137626903547457520, guid: 6d36da625c44d1244b52436cffc80abc, type: 3}
+      propertyPath: m_TagString
+      value: wall
+      objectReference: {fileID: 0}
     - target: {fileID: 4137626903547457523, guid: 6d36da625c44d1244b52436cffc80abc, type: 3}
       propertyPath: m_RootOrder
       value: 6

@@ -13,6 +13,8 @@ public class Companion : MonoBehaviour
     private Vector3 targetPosition;
     [SerializeField] private bool companionMouseFollow = false;
     private Rigidbody2D rb;
+    private bool hasKey = false;
+    private GameObject keyGO;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -39,15 +41,24 @@ public class Companion : MonoBehaviour
 
         targetPosition = new Vector3(targetPosition.x, targetPosition.y, 0);
         gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition, moveSpeed * Vector3.Distance(targetPosition, gameObject.transform.position) * Time.deltaTime);
+
+        if (player.hasKey)
+        {
+            hasKey = false;
+        }
+
+        if (hasKey)
+        {
+            keyGO.transform.position = transform.position;
+        }
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("collide");
         //stores that the key has been collected, destorys key
         if (collision.tag == "key")
         {
-            player.hasKey = true;
-            collision.GetComponent<Key>().PickedUp();
+            hasKey = true;
+            keyGO = collision.gameObject;
         }
     }
 }
