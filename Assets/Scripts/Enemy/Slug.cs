@@ -20,7 +20,7 @@ public class Slug : MonoBehaviour
     void Update()
     {
         //Moves the enemy in a direction at a predetermined speed
-        if (!enemyClass.isStunned)
+        if (!enemyClass.isStunned && !enemyClass.isTailSucking)
         {
             if (movingRight)
             {
@@ -56,7 +56,7 @@ public class Slug : MonoBehaviour
 
     public void Jump()
     {
-        if (!enemyClass.isStunned && canJump)
+        if (!enemyClass.isStunned && !enemyClass.isTailSucking && canJump)
         {
             canJump = false;
             enemyClass.isStunned = true;

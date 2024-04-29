@@ -5,7 +5,7 @@ using UnityEngine;
 public class WaspSpit : MonoBehaviour
 {
     private PlayerMovement player;
-    private GameObject parent;
+    [SerializeField] GameObject spit;
     private void Start()
     {
         player = FindObjectOfType<PlayerMovement>();
@@ -16,7 +16,8 @@ public class WaspSpit : MonoBehaviour
         if(collision.tag == "Player")
         {
             Debug.Log("spitting");
-            Debug.Log(Vector2.Angle(transform.position, player.transform.position));
+            GameObject spawnedSpit = Instantiate(spit, transform.position, Quaternion.identity);
+            spawnedSpit.GetComponent<Spit>().SetTarget(player.transform.position);
         }
         
     }

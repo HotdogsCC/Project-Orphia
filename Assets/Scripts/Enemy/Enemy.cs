@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject hurtParticles;
     [SerializeField] private GameObject corpse;
     [SerializeField] TextMeshProUGUI hText;
-    private bool isTailSucking = false;
+    public bool isTailSucking = false;
     public bool isStunned = false;
     private int stunCount = 0;
     public void Destroyed()
