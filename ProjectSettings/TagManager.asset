@@ -10,6 +10,9 @@ TagManager:
   - corpse
   - game over
   - wall
+  - spit
+  - companion
+  - enemy hitbox
   layers:
   - Default
   - TransparentFX
@@ -26,8 +29,8 @@ TagManager:
   - PlayerHitbox
   - Wasp
   - Spit
-  - 
-  - 
+  - Platform
+  - PlayerHurtbox
   - 
   - 
   - 

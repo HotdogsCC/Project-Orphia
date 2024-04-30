@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 1060106752884041534}
   - component: {fileID: 487179273183879805}
   - component: {fileID: -894530097779584995}
-  m_Layer: 0
+  - component: {fileID: -5495028508275365915}
+  m_Layer: 14
   m_Name: Spit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 15
-  m_Sprite: {fileID: 21300000, guid: 8ec2191ca7517854da680f91be798c2b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3cf037a217e8d674a859d09dfec0e67b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,11 +100,11 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.9351237, y: 3.2116525}
+  m_Offset: {x: 0, y: -0.16}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 19.2, y: 10.8}
+    oldSize: {x: 7.12, y: 1.1}
     newSize: {x: 19.2, y: 10.8}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -124,4 +125,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa813edb29381584ca06beb379f18db4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.1
+  moveSpeed: 10
+--- !u!50 &-5495028508275365915
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3603677638020630438}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

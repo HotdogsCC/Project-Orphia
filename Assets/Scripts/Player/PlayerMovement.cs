@@ -73,11 +73,14 @@ public class PlayerMovement : MonoBehaviour
     {
         return Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 2.01f), Vector2.down, 0.051f);
     }
+
+    //for some reason it is detecting itself in the raycast and causing issues when falling. changing the transform offset to 2.01 offet is a shit fix
+    //too bad!
     bool CanJump()
     {
         if (IsGrounded())
         {
-            if(IsGrounded().transform.tag == "jumpable")
+            if (IsGrounded().transform.tag == "jumpable")
             {
                 return true;
             }
