@@ -13,6 +13,8 @@ TagManager:
   - spit
   - companion
   - enemy hitbox
+  - wasp
+  - PlayerHitbox
   layers:
   - Default
   - TransparentFX

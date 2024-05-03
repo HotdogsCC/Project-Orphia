@@ -60,5 +60,15 @@ public class Companion : MonoBehaviour
             hasKey = true;
             keyGO = collision.gameObject;
         }
+        
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.tag == "wasp")
+        {
+            Enemy wasp = collision.transform.GetComponent<Enemy>();
+            wasp.HitEnemy(5, 5, 5);
+            wasp.GetComponent<Rigidbody2D>().gravityScale = 1;
+        }
     }
 }

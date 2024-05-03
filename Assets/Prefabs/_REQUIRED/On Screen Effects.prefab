@@ -1241,7 +1241,7 @@ GameObject:
   - component: {fileID: 7003042394074909218}
   - component: {fileID: 7003042394074909219}
   m_Layer: 5
-  m_Name: Character
+  m_Name: Orphia
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -77,3 +77,9 @@ MonoBehaviour:
   - i am not kidding
   - (i am totally kidding)
   - i am a loyal fucktoy to garrett
+  images:
+  - {fileID: 21300000, guid: a7002d93fbb46a04baa178da9c75f1b2, type: 3}
+  - {fileID: 21300000, guid: 6820bf30d6f024d48bae184f262c3e98, type: 3}
+  - {fileID: 21300000, guid: 7b154c9e6194c664c8356837e3ea46fa, type: 3}
+  - {fileID: 21300000, guid: 0660f3807158c4f49a1c32d9e0a58019, type: 3}
+  - {fileID: 21300000, guid: 09166c1f52f42f946ae577194ccc58be, type: 3}

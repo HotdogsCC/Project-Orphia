@@ -18,7 +18,7 @@ public class WaspSpit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player")
+        if(collision.tag == "PlayerHitbox")
         {
             wasp.agro = true;
         }
@@ -26,7 +26,7 @@ public class WaspSpit : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.tag == "PlayerHitbox")
         {
             wasp.agro = false;
         }
@@ -39,7 +39,7 @@ public class WaspSpit : MonoBehaviour
 
     private void TryToSpit()
     {
-        if(canSpit && wasp.agro)
+        if(canSpit && wasp.agro && GetComponentInParent<Enemy>().isStunned == false && GetComponentInParent<Enemy>().isTailSucking == false)
         {
             canSpit = false;
             StartCoroutine(WaitAndThen(spitWaitTime));
