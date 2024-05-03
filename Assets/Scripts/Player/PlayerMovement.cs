@@ -71,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
     //checks whether the player is on the ground
     RaycastHit2D IsGrounded()
     {
-        return Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 2.01f), Vector2.down, 0.051f);
+        return Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 2.01f), Vector2.down, 0.051f, 32768);
     }
 
     //for some reason it is detecting itself in the raycast and causing issues when falling. changing the transform offset to 2.01 offet is a shit fix
@@ -114,6 +114,8 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
+        Debug.DrawRay(new Vector2(transform.position.x, transform.position.y - 2.01f), Vector2.down, Color.red, 0.051f);
+
         //If you touch the floor, you can double jump again
         if (CanJump())
         {

@@ -6674,6 +6674,7 @@ MonoBehaviour:
   moveSpeed: 5
   movingRight: 0
   agro: 1
+  player: {fileID: 0}
 --- !u!1 &697475877264289152
 GameObject:
   m_ObjectHideFlags: 0
@@ -6793,6 +6794,18 @@ PrefabInstance:
     - target: {fileID: 983266627431732866, guid: 55194c03783844a4b926eb2b3f9c983f, type: 3}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 983266627431732866, guid: 55194c03783844a4b926eb2b3f9c983f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 983266627431732866, guid: 55194c03783844a4b926eb2b3f9c983f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 983266627431732866, guid: 55194c03783844a4b926eb2b3f9c983f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: 983266627431732866, guid: 55194c03783844a4b926eb2b3f9c983f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7243,6 +7256,10 @@ PrefabInstance:
     - target: {fileID: 879422795960059614, guid: 120b065291a331945aa3d02069fe8aaa, type: 3}
       propertyPath: m_Name
       value: Slug
+      objectReference: {fileID: 0}
+    - target: {fileID: 879422795960059614, guid: 120b065291a331945aa3d02069fe8aaa, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 120b065291a331945aa3d02069fe8aaa, type: 3}
