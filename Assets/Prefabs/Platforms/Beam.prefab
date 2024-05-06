@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 2316602762549688665}
   - component: {fileID: 6295240439585199907}
   - component: {fileID: 1215434574966425789}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Beam
-  m_TagString: Untagged
+  m_TagString: jumpable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
