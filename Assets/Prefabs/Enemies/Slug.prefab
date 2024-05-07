@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 879422795960059609}
   - component: {fileID: 879422795960059611}
   - component: {fileID: 879422795960059610}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Slug
   m_TagString: Untagged
   m_Icon: {fileID: 0}
