@@ -460,10 +460,16 @@ public class PlayerMovement : MonoBehaviour
     public void DamageInflicted(int damageAmount, float xKnockbackInflicted, float yKnockbackInflicted, Vector2 enemyPosition)
     {
         isTailingSucking = false;
+        foreach (Enemy enemy in FindObjectsOfType<Enemy>())
+        {
+            enemy.EndTailSucking();
+            enemy.EndStun();
+        }
         health -= damageAmount;
         UpdateHealthAndRage();
         isStunned = true;
         isDashing = false;
+        Instantiate(hurtParticles, gameObject.transform.position, Quaternion.identity);
         ResetVelocity();
         if (gameObject.transform.position.x >= enemyPosition.x)
         {

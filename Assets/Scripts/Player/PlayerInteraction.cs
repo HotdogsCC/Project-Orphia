@@ -16,41 +16,44 @@ public class PlayerInteraction : MonoBehaviour
     }
     private void Interact()
     {
-        if(Input.GetKeyDown(KeyCode.E))
+        if(player.isStunned == false)
         {
-            //runs when the player interacts with an unlockable wall and has a key for it
-            if (currentKeyWall != null && hasKey)
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                currentKeyWall.Unlocked();
-                currentKeyWall = null;
-                hasKey = false;
+                //runs when the player interacts with an unlockable wall and has a key for it
+                if (currentKeyWall != null && hasKey)
+                {
+                    currentKeyWall.Unlocked();
+                    currentKeyWall = null;
+                    hasKey = false;
+                }
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            //runs when the player consumes an enemy corpse
-            if(enemyCorpse != null)
+            if (Input.GetKeyDown(KeyCode.F))
             {
-                player.IncreaseHealth(enemyCorpse.Consumed());
-                enemyCorpse = null;
-            }
-            //runs when the player is trying to consume health from an enemy
-            if (player.enemiesInPHitbox.Count > 0)
-            {
-                //if the player isnt consuming health from the enemy, it begins. Otherwise, it stops
-                if (!player.isTailingSucking)
+                //runs when the player consumes an enemy corpse
+                if (enemyCorpse != null)
                 {
-                    player.ResetVelocity();
-                    player.isTailingSucking = true;
-                    player.enemiesInPHitbox[0].BeginTailSucking();
+                    player.IncreaseHealth(enemyCorpse.Consumed());
+                    enemyCorpse = null;
                 }
-                else
+                //runs when the player is trying to consume health from an enemy
+                if (player.enemiesInPHitbox.Count > 0)
                 {
-                    player.isTailingSucking = false;
-                    player.enemiesInPHitbox[0].EndTailSucking();
+                    //if the player isnt consuming health from the enemy, it begins. Otherwise, it stops
+                    if (!player.isTailingSucking)
+                    {
+                        player.ResetVelocity();
+                        player.isTailingSucking = true;
+                        player.enemiesInPHitbox[0].BeginTailSucking();
+                    }
+                    else
+                    {
+                        player.isTailingSucking = false;
+                        player.enemiesInPHitbox[0].EndTailSucking();
+                    }
+
                 }
-                
             }
         }
     }

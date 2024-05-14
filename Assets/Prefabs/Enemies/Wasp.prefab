@@ -284,6 +284,8 @@ MonoBehaviour:
   enemyType: 0
   deathParticles: {fileID: 2660482614438199520, guid: 0e6f81fca4c2b1d4fbc45f081607c8e8, type: 3}
   hurtParticles: {fileID: 5674588539894840908, guid: daf24ab4d0239494ebd0ad09401408b9, type: 3}
+  healthSuckParticles: {fileID: 398886663691448247, guid: 2beec58879ff4844d8ea6e81572a9c74, type: 3}
+  breakFreeParts: {fileID: 8973319182469231274, guid: 65d39da5e650735428eac4f87d06a91e, type: 3}
   corpse: {fileID: 8612378802960865890, guid: 7d60957906671e74a9ac3e38cef962b4, type: 3}
   hText: {fileID: 615257378522555915}
   isTailSucking: 0

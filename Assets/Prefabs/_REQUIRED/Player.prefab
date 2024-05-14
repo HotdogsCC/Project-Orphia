@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doubleJumpParticles: {fileID: 1692039631834630048, guid: 4974c1c36485666488c71acfc77cfa9e, type: 3}
-  hurtParticles: {fileID: 5674588539894840908, guid: daf24ab4d0239494ebd0ad09401408b9, type: 3}
+  hurtParticles: {fileID: 5674588539894840908, guid: 0d3c257bbd95e6445be6918a7fa25dbd, type: 3}
   deathParticles: {fileID: 2660482614438199520, guid: 0e6f81fca4c2b1d4fbc45f081607c8e8, type: 3}
   ppv: {fileID: 0}
   primaryAttackHitbox: {fileID: 3765544348130538725}

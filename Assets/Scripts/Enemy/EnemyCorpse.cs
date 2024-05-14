@@ -6,6 +6,7 @@ public class EnemyCorpse : MonoBehaviour
 { 
     private Enemy.EnemyType enemyType;
     private int health = 0;
+    [SerializeField] private GameObject corpseConsumeParts;
 
     public void SetEnemyType(Enemy.EnemyType type)
     {
@@ -30,6 +31,7 @@ public class EnemyCorpse : MonoBehaviour
 
     public int Consumed()
     {
+        Instantiate(corpseConsumeParts, gameObject.transform.position, Quaternion.identity);
         Destroy(gameObject);
         return health;
     }

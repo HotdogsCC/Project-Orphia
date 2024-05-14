@@ -205,12 +205,15 @@ MonoBehaviour:
   damage: 25
   xKnockbackDealt: 700
   yKnockbackDealt: 800
-  enemyMoveSpeed: -3
   enemyType: 0
   deathParticles: {fileID: 2660482614438199520, guid: 0e6f81fca4c2b1d4fbc45f081607c8e8, type: 3}
   hurtParticles: {fileID: 5674588539894840908, guid: daf24ab4d0239494ebd0ad09401408b9, type: 3}
+  healthSuckParticles: {fileID: 398886663691448247, guid: 2beec58879ff4844d8ea6e81572a9c74, type: 3}
+  breakFreeParts: {fileID: 8973319182469231274, guid: 65d39da5e650735428eac4f87d06a91e, type: 3}
   corpse: {fileID: 8867364324887870358, guid: 508b6a2d11604c14786ed362eadc0a67, type: 3}
   hText: {fileID: 697475877291624960}
+  isTailSucking: 0
+  isStunned: 0
 --- !u!50 &697475876008288902
 Rigidbody2D:
   serializedVersion: 4

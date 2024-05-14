@@ -21,8 +21,11 @@ public class Enemy : MonoBehaviour
     private PlayerMovement player;
     [SerializeField] private GameObject deathParticles;
     [SerializeField] private GameObject hurtParticles;
+    [SerializeField] private GameObject healthSuckParticles;
+    [SerializeField] private GameObject breakFreeParts;
     [SerializeField] private GameObject corpse;
     [SerializeField] TextMeshProUGUI hText;
+    private GameObject currentHSParticles;
     public bool isTailSucking = false;
     public bool isStunned = false;
     private int stunCount = 0;
@@ -49,6 +52,7 @@ public class Enemy : MonoBehaviour
     {
         if(health <= 0)
         {
+            Destroy(currentHSParticles);
             Destroyed();
         }
         hText.text = health.ToString();
@@ -77,6 +81,7 @@ public class Enemy : MonoBehaviour
     {
         isTailSucking = true;
         isStunned = true;
+        currentHSParticles = Instantiate(healthSuckParticles, gameObject.transform);
         TailSucking();
     }
 
@@ -89,6 +94,7 @@ public class Enemy : MonoBehaviour
             {
                 EndTailSucking();
                 EndStun();
+                Instantiate(breakFreeParts, gameObject.transform.position, Quaternion.identity);
                 player.DamageInflicted(damage, xKnockbackDealt, yKnockbackDealt, gameObject.transform.position);
             }
             else
@@ -99,7 +105,9 @@ public class Enemy : MonoBehaviour
     }
     public void EndTailSucking()
     {
+        Debug.Log("ended");
         isTailSucking = false;
+        Destroy(currentHSParticles);
     }
     public void EndStun()
     {
@@ -144,7 +152,7 @@ public class Enemy : MonoBehaviour
     {
         if (collision.transform.tag == "Player")
         {
-            isTailSucking = false;
+            EndTailSucking();
             player.DamageInflicted(damage, xKnockbackDealt, yKnockbackDealt, gameObject.transform.position);
         }
         if (collision.transform.tag == "jumpable")
