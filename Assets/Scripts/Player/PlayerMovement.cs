@@ -291,7 +291,7 @@ public class PlayerMovement : MonoBehaviour
     private void UpdateHealthAndRage()
     {
         
-        //spriteRenderer.material.SetFloat("_GrayscaleAmount", 0);
+        spriteRenderer.material.SetFloat("_GrayscaleAmount", (-health)/100 + 1);
         vignette.intensity.value = (100 - health) * 0.005f;
 
         //Assigns health bar colour and value based upon current health

@@ -4,6 +4,7 @@ using TreeEditor;
 using Unity.VisualScripting;
 using UnityEditor.Build;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Wasp : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class Wasp : MonoBehaviour
             enemyClass.GetComponent<Rigidbody2D>().gravityScale = 0;
             if (agro)
             {
-                if (player.transform.position.x > transform.position.x)
+                if (player.transform.position.x >= transform.position.x)
                 {
                     movingRight = true;
                 }
@@ -50,6 +51,12 @@ public class Wasp : MonoBehaviour
             {
                 rb.velocity = new Vector2(-moveSpeed, Mathf.Sin(Time.time * wobbleSpeed) * wobbleHeight);
                 sprite.flipX = true;
+            }
+
+            if(Mathf.Abs(player.transform.position.x - transform.position.x) <= 2)
+            {
+                sprite.flipX = true;
+                rb.velocity = new Vector2(0, rb.velocity.y);
             }
 
             if(transform.position.y < 5)
