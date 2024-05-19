@@ -110,6 +110,8 @@ public class PlayerMovement : MonoBehaviour
         playerRB = GetComponent<Rigidbody2D>();
         vignette = ppv.profile.GetSetting<Vignette>();
         aSource = GetComponent<AudioSource>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sharedMaterial.SetFloat("_GrayscaleAmount", 0);
         //gameOverScreen = GameObject.FindGameObjectWithTag("game over");
     }
     private void Update()
@@ -290,8 +292,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void UpdateHealthAndRage()
     {
-        
-        spriteRenderer.material.SetFloat("_GrayscaleAmount", (-health)/100 + 1);
+        float fHealth = health;
+        spriteRenderer.sharedMaterial.SetFloat("_GrayscaleAmount", (-fHealth) /100 + 1);
+        Debug.Log((-fHealth) / 100 + 1);
         vignette.intensity.value = (100 - health) * 0.005f;
 
         //Assigns health bar colour and value based upon current health
