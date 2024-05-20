@@ -65,7 +65,7 @@ public class Wasp : MonoBehaviour
             }
             if (transform.position.y > 11)
             {
-                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + 5);
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - 5);
             }
         }
         else
