@@ -48,8 +48,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private float stunTime = 1f;
     private AudioSource aSource;
+    [SerializeField] private AudioLowPassFilter lPass;
     [SerializeField] private AudioClip hitSFX;
     [SerializeField] private AudioClip missSFX;
+
 
 
     //Important data
@@ -112,6 +114,7 @@ public class PlayerMovement : MonoBehaviour
         aSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sharedMaterial.SetFloat("_GrayscaleAmount", 0);
+        lPass.cutoffFrequency = 22000;
         //gameOverScreen = GameObject.FindGameObjectWithTag("game over");
     }
     private void Update()
@@ -296,9 +299,10 @@ public class PlayerMovement : MonoBehaviour
         spriteRenderer.sharedMaterial.SetFloat("_GrayscaleAmount", (-fHealth) /100 + 1);
         Debug.Log((-fHealth) / 100 + 1);
         vignette.intensity.value = (100 - health) * 0.005f;
+        lPass.cutoffFrequency = health * 220;
 
         //Assigns health bar colour and value based upon current health
-        if(health <= 0)
+        if (health <= 0)
         {
             gameOverScreen.SetActive(true);
             Instantiate(deathParticles, playerRB.transform.position, Quaternion.identity);
