@@ -35,6 +35,10 @@ public class Slug : MonoBehaviour
                 healthDisplay.localScale = new Vector3(0.01f, 0.01f, 0.01f);
             }
         }
+        else
+        {
+            isAgro = true;
+        }
 
         if (isAgro)
         {
