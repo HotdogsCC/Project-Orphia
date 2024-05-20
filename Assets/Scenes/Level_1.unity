@@ -850,9 +850,9 @@ GameObject:
   - component: {fileID: 200849917}
   - component: {fileID: 200849916}
   - component: {fileID: 200849915}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: beam 1 (2)
-  m_TagString: Untagged
+  m_TagString: jumpable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1423,9 +1423,9 @@ GameObject:
   - component: {fileID: 341656456}
   - component: {fileID: 341656455}
   - component: {fileID: 341656454}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: beam 1 (1)
-  m_TagString: Untagged
+  m_TagString: jumpable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4305,9 +4305,9 @@ GameObject:
   - component: {fileID: 1247013720}
   - component: {fileID: 1247013719}
   - component: {fileID: 1247013718}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: beam 1
-  m_TagString: Untagged
+  m_TagString: jumpable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
