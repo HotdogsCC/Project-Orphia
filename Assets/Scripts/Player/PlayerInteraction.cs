@@ -9,10 +9,16 @@ public class PlayerInteraction : MonoBehaviour
     public KeyWall currentKeyWall; //stores what wall is currently being faced
     [SerializeField] private PlayerMovement player; //refernce to player movement script
     private EnemyCorpse enemyCorpse; //stores what enemy corpse is currently being collided with
+    [SerializeField] private AudioSource tailSuckingSFX;
 
     private void Update()
     {
         Interact();
+
+        if (!player.isTailingSucking)
+        {
+            tailSuckingSFX.Stop();
+        }
     }
     private void Interact()
     {
@@ -45,11 +51,13 @@ public class PlayerInteraction : MonoBehaviour
                     {
                         player.ResetVelocity();
                         player.isTailingSucking = true;
+                        tailSuckingSFX.Play();
                         player.enemiesInPHitbox[0].BeginTailSucking();
                     }
                     else
                     {
                         player.isTailingSucking = false;
+                        tailSuckingSFX.Stop();
                         player.enemiesInPHitbox[0].EndTailSucking();
                     }
 

@@ -5,9 +5,10 @@ using UnityEngine;
 public class EnemyCorpse : MonoBehaviour
 { 
     private Enemy.EnemyType enemyType;
-    private int health = 0;
+    [SerializeField] private int health = 0;
     [SerializeField] private GameObject corpseConsumeParts;
 
+    //Assigns health value to the corpse from the enemy type
     public void SetEnemyType(Enemy.EnemyType type)
     {
         enemyType = type;
@@ -28,7 +29,7 @@ public class EnemyCorpse : MonoBehaviour
         }
     }
 
-
+    // Runs when the corpse is interacted with
     public int Consumed()
     {
         Instantiate(corpseConsumeParts, gameObject.transform.position, Quaternion.identity);

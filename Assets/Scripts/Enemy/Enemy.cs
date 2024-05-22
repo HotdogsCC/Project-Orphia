@@ -7,6 +7,8 @@ using UnityEngine.Rendering;
 
 public class Enemy : MonoBehaviour
 {
+
+    // Meant to be used for assigning health values to enemy corpses, but there isnt really any enemy variety rn
     public enum EnemyType
     {
         Small, Large, Boss
@@ -29,6 +31,8 @@ public class Enemy : MonoBehaviour
     public bool isTailSucking = false;
     public bool isStunned = false;
     private int stunCount = 0;
+
+    //Runs when the enemy is killed
     public void Destroyed()
     {
         player.isStunned = false;
@@ -77,6 +81,7 @@ public class Enemy : MonoBehaviour
         
     }
 
+    // Runs when the tail sucking action begins
     public void BeginTailSucking()
     {
         isTailSucking = true;
@@ -85,11 +90,14 @@ public class Enemy : MonoBehaviour
         TailSucking();
     }
 
+    //Called every 0.5 seconds while tail sucking is active, loops from WaitAndThen Coroutine
     private void TailSucking()
     {
         if (isTailSucking)
         {
             HealthConsumed();
+
+            // 20% chance of enemy breaking free each time health is consumed, checked every 0.5 seconds
             if (Random.Range(1, 10) <= 2)
             {
                 EndTailSucking();
@@ -103,9 +111,9 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
     public void EndTailSucking()
     {
-        Debug.Log("ended");
         isTailSucking = false;
         Destroy(currentHSParticles);
     }
@@ -114,7 +122,7 @@ public class Enemy : MonoBehaviour
         isStunned = false;
     }
 
-
+    //Called during tail sucking, just adds health to the player and removes some from the enemy. Runs every 0.05 seconds
     private void HealthConsumed()
     {
         player.IncreaseHealth(1);
@@ -122,6 +130,7 @@ public class Enemy : MonoBehaviour
         StartCoroutine(WaitAndThen(0.05f, "healthConsumed"));
     }
 
+    //Used for a variety of methods that requires waiting for amounts of time
     private IEnumerator WaitAndThen(float seconds, string thing)
     {
         yield return new WaitForSeconds(seconds);
@@ -150,11 +159,14 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //Deals damage to the player if collided with
         if (collision.transform.tag == "Player")
         {
             EndTailSucking();
             player.DamageInflicted(damage, xKnockbackDealt, yKnockbackDealt, gameObject.transform.position);
         }
+
+        //Enemy is stunned until touching the ground, and then awakens 0.5 seconds later
         if (collision.transform.tag == "jumpable")
         {
             stunCount = 0;

@@ -205,8 +205,10 @@ MonoBehaviour:
   pTimeComboIsActive: 1
   gameOverScreen: {fileID: 0}
   stunTime: 1
-  hitSFX: {fileID: 8300000, guid: 66a8993c530d8404e960fe4fed32ab05, type: 3}
-  missSFX: {fileID: 8300000, guid: 88a8a5900f18e2e43855d4e895347447, type: 3}
+  footsteps: {fileID: 0}
+  lPass: {fileID: 0}
+  hitSFX: {fileID: 8300000, guid: 39d33f138e30fa24c94f7ad952d8043e, type: 3}
+  missSFX: {fileID: 8300000, guid: 16756fd119968614590600aef5d8f3c4, type: 3}
   enemiesInPHitbox: []
   currentDestoryableWall: {fileID: 0}
   isFacingRight: 0

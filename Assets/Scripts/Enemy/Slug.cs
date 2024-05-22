@@ -35,6 +35,7 @@ public class Slug : MonoBehaviour
                 healthDisplay.localScale = new Vector3(0.01f, 0.01f, 0.01f);
             }
         }
+        //"else" running implies the enemy has been attacked, and therefore is now in an agressive state.
         else
         {
             isAgro = true;
@@ -44,6 +45,7 @@ public class Slug : MonoBehaviour
         {
             if (enemyClass.GetComponent<Rigidbody2D>().velocity.y == 0)
             {
+                //Moves towards the player while in agro mode
                 PlayerMovement player = FindObjectOfType<PlayerMovement>();
                 if(player.transform.position.x > transform.position.x)
                 {
@@ -57,7 +59,7 @@ public class Slug : MonoBehaviour
         }
     }
 
-
+    //Prepares the slug to jump
     public void Jump()
     {
         if (!enemyClass.isStunned && !enemyClass.isTailSucking && canJump)
@@ -65,6 +67,9 @@ public class Slug : MonoBehaviour
             canJump = false;
             enemyClass.isStunned = true;
             isAgro = true;
+            GetComponent<SpriteRenderer>().color = Color.red;
+
+            //Actually jumps after waiting some times
             StartCoroutine(WaitAndThen(timeBeforeJump, "jump"));
             StartCoroutine(WaitAndThen(jumpCooldown, "jumpCooldown"));
         }
@@ -76,7 +81,8 @@ public class Slug : MonoBehaviour
         switch (thing)
         {
             case "jump":
-                //enemyClass.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                GetComponent<SpriteRenderer>().color = Color.white;
+
                 if (movingRight)
                 {
                     enemyClass.GetComponent<Rigidbody2D>().AddForce(new Vector2(xJumpForce * 10000, yJumpForce * 10000));

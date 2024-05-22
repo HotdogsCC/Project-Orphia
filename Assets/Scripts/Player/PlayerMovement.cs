@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private float stunTime = 1f;
     private AudioSource aSource;
+    [SerializeField] AudioSource footsteps;
     [SerializeField] private AudioLowPassFilter lPass;
     [SerializeField] private AudioClip hitSFX;
     [SerializeField] private AudioClip missSFX;
@@ -203,6 +204,10 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            if (!footsteps.isPlaying)
+            {
+                footsteps.Play();
+            }
             //Sets character x velocity based upon input
             if (Input.GetKey(KeyCode.D))
             {
@@ -216,6 +221,11 @@ public class PlayerMovement : MonoBehaviour
                 transform.localScale = new Vector3(1, 1, 1);
                 isFacingRight = false;
             }
+        }
+
+        if(playerRB.velocity.x == 0)
+        {
+            footsteps.Stop();
         }
 
         //Jumps
@@ -304,6 +314,7 @@ public class PlayerMovement : MonoBehaviour
         //Assigns health bar colour and value based upon current health
         if (health <= 0)
         {
+            footsteps.Stop();
             gameOverScreen.SetActive(true);
             Instantiate(deathParticles, playerRB.transform.position, Quaternion.identity);
             Destroy(gameObject);

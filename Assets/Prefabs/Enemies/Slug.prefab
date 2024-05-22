@@ -207,7 +207,7 @@ MonoBehaviour:
   moveSpeed: 2
   xJumpForce: 10
   yJumpForce: 10
-  timeBeforeJump: 0.2
+  timeBeforeJump: 0.5
   jumpCooldown: 5
   movingRight: 1
   healthDisplay: {fileID: 879422795431503743}
