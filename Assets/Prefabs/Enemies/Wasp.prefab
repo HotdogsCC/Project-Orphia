@@ -71,7 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d88347e5b55249c47946c72252cae267, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spitWaitTime: 2
+  spitWaitTime: 3
   spit: {fileID: 3603677638020630438, guid: 23f78a31f10884e4d884f38184046c6b, type: 3}
 --- !u!1 &615257376580071208
 GameObject:
@@ -277,8 +277,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0573ad3fce3d7ef4b9dc011b6857648a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  damage: 25
+  health: 80
+  damage: 10
   xKnockbackDealt: 700
   yKnockbackDealt: 800
   enemyType: 0

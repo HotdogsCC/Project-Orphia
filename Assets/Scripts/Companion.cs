@@ -15,9 +15,11 @@ public class Companion : MonoBehaviour
     private Rigidbody2D rb;
     private bool hasKey = false;
     private GameObject keyGO;
+    private AudioSource aSource;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        aSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -66,6 +68,7 @@ public class Companion : MonoBehaviour
     {
         if (collision.transform.tag == "wasp")
         {
+            aSource.Play();
             Enemy wasp = collision.transform.GetComponent<Enemy>();
             wasp.HitEnemy(5, 5, 5);
             wasp.GetComponent<Rigidbody2D>().gravityScale = 1;

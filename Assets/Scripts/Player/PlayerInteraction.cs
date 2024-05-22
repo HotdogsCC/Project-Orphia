@@ -8,7 +8,7 @@ public class PlayerInteraction : MonoBehaviour
     public bool hasKey = false; //stores whether the key has been picked up
     public KeyWall currentKeyWall; //stores what wall is currently being faced
     [SerializeField] private PlayerMovement player; //refernce to player movement script
-    private EnemyCorpse enemyCorpse; //stores what enemy corpse is currently being collided with
+    private List<EnemyCorpse> enemyCorpses = new List<EnemyCorpse>(); //stores what enemy corpse is currently being collided with
     [SerializeField] private AudioSource tailSuckingSFX;
 
     private void Update()
@@ -38,10 +38,9 @@ public class PlayerInteraction : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.F))
             {
                 //runs when the player consumes an enemy corpse
-                if (enemyCorpse != null)
+                if (enemyCorpses.Count > 0)
                 {
-                    player.IncreaseHealth(enemyCorpse.Consumed());
-                    enemyCorpse = null;
+                    player.IncreaseHealth(enemyCorpses[0].Consumed());
                 }
                 //runs when the player is trying to consume health from an enemy
                 if (player.enemiesInPHitbox.Count > 0)
@@ -76,7 +75,7 @@ public class PlayerInteraction : MonoBehaviour
         //stores what corpse is currently being collided with
         if(collision.tag == "corpse")
         {
-            enemyCorpse = collision.GetComponent<EnemyCorpse>();
+            enemyCorpses.Add(collision.GetComponent<EnemyCorpse>());
         }
     }
 
@@ -85,7 +84,7 @@ public class PlayerInteraction : MonoBehaviour
         //unselects enemy corpse
         if (collision.tag == "corpse")
         {
-            enemyCorpse = null;
+            enemyCorpses.Remove(collision.GetComponent<EnemyCorpse>());
         }
     }
 

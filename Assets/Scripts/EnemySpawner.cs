@@ -28,7 +28,6 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator WaitingAndThenSpawning()
     {
         yield return new WaitForSeconds(Random.Range(minWaitTime, maxWaitTime));
-        Debug.Log("spawned!");
         int coinFlip = Random.Range(0, 2);
         if(coinFlip == 0)
         {

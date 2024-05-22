@@ -12,6 +12,7 @@ public class Slug : MonoBehaviour
     [SerializeField] private float jumpCooldown = 5f;
     [SerializeField] private bool movingRight = true;
     private bool canJump = true;
+    private bool directionToJump = true;
     private bool isAgro = false;
     [SerializeField] private RectTransform healthDisplay;
 
@@ -64,6 +65,7 @@ public class Slug : MonoBehaviour
     {
         if (!enemyClass.isStunned && !enemyClass.isTailSucking && canJump)
         {
+            directionToJump = movingRight;
             canJump = false;
             enemyClass.isStunned = true;
             isAgro = true;
@@ -83,7 +85,7 @@ public class Slug : MonoBehaviour
             case "jump":
                 GetComponent<SpriteRenderer>().color = Color.white;
 
-                if (movingRight)
+                if (directionToJump)
                 {
                     enemyClass.GetComponent<Rigidbody2D>().AddForce(new Vector2(xJumpForce * 10000, yJumpForce * 10000));
                 }

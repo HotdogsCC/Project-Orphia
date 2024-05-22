@@ -120,7 +120,6 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
-        Debug.DrawRay(new Vector2(transform.position.x, transform.position.y - 2.01f), Vector2.down, Color.red, 0.051f);
 
         //If you touch the floor, you can double jump again
         if (CanJump())
@@ -307,7 +306,6 @@ public class PlayerMovement : MonoBehaviour
     {
         float fHealth = health;
         spriteRenderer.sharedMaterial.SetFloat("_GrayscaleAmount", (-fHealth) /100 + 1);
-        Debug.Log((-fHealth) / 100 + 1);
         vignette.intensity.value = (100 - health) * 0.005f;
         lPass.cutoffFrequency = health * 220;
 
