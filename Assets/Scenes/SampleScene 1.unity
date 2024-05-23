@@ -410,7 +410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d70cc20219cd84593f67d248eafe36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Offset: {x: 0, y: 4.5, z: 0}
+  m_Offset: {x: 0, y: 6.5, z: 0}
   m_ApplyAfter: 1
   m_PreserveComposition: 0
 --- !u!114 &52063163
@@ -435,7 +435,7 @@ MonoBehaviour:
   m_Follow: {fileID: 2058036374}
   m_Lens:
     FieldOfView: 80
-    OrthographicSize: 8
+    OrthographicSize: 11
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -6261,7 +6261,7 @@ Camera:
   far clip plane: 1000
   field of view: 80
   orthographic: 1
-  orthographic size: 8
+  orthographic size: 11
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -6285,7 +6285,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1174972624}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -262, y: 3.02, z: -10}
+  m_LocalPosition: {x: -262, y: 5.02, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10279,7 +10279,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2316602762549688665, guid: 7070d0fa11f07164c868c538b821dcb6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.5
+      value: 10.33
       objectReference: {fileID: 0}
     - target: {fileID: 2316602762549688665, guid: 7070d0fa11f07164c868c538b821dcb6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -10364,9 +10364,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: d5b749cae5b4317489141af66ac1a1f6, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 5f8fcb7e7daf7bd48a43979e262d52f5, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.454
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 1
   Mute: 0

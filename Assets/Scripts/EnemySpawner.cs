@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    int minWaitTime = 0;
-    int maxWaitTime = 15;
+    int minWaitTime = 1;
+    int maxWaitTime = 5;
 
     [SerializeField] GameObject slug;
     [SerializeField] GameObject wasp;
