@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 304930a005713884c830f03bac66a11f
+guid: 558fcccd15c3ff642b9a06bb934ebd39
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,12 +7,12 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: lambert8
+      name: pasted__lambert8
     second: {fileID: 2100000, guid: 547b4b273157c3042a9951eb81c4f852, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: orphia
+      name: pasted__orphia
     second: {fileID: 2100000, guid: fff9890231d838140891196449a0220e, type: 2}
   materials:
     materialImportMode: 2
@@ -43,7 +43,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
+      name: Attack
       takeName: Take 001
       internalID: 1827226128182048838
       firstFrame: 1

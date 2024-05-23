@@ -35,6 +35,7 @@ public class Enemy : MonoBehaviour
     //Runs when the enemy is killed
     public void Destroyed()
     {
+        TimerUpdater.AddToKill();
         player.isStunned = false;
         player.isTailingSucking = false;
         GameObject corpseGO = Instantiate(corpse, gameObject.transform.position, Quaternion.identity);

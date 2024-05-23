@@ -6,10 +6,12 @@ using TMPro;
 public class TimerUpdater : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI timer;
+    [SerializeField] TextMeshProUGUI killCountTMP;
+    [SerializeField] private static int killCount = 0;
 
     private void Start()
     {
-
+        killCount = 0;
     }
     // Update is called once per frame
     void Update()
@@ -37,5 +39,12 @@ public class TimerUpdater : MonoBehaviour
         }
 
         timer.text = minStr + ":" + secStr;
+
+        killCountTMP.text = killCount.ToString();
+    }
+
+    public static void AddToKill()
+    {
+        killCount++;
     }
 }

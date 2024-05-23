@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 6346581068338871610}
   - component: {fileID: 4731683520992365633}
   - component: {fileID: 7571024735192623132}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Enemy Corpse
   m_TagString: corpse
   m_Icon: {fileID: 0}
