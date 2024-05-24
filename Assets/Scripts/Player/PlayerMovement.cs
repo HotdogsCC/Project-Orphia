@@ -455,6 +455,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "stun":
                 isStunned = false;
+                animator.SetBool("stunned", false);
                 break;
             case "dash":
                 canDash = true;
@@ -489,6 +490,7 @@ public class PlayerMovement : MonoBehaviour
     public void DamageInflicted(int damageAmount, float xKnockbackInflicted, float yKnockbackInflicted, Vector2 enemyPosition)
     {
         isTailingSucking = false;
+        animator.SetBool("stunned", true);
         foreach (Enemy enemy in FindObjectsOfType<Enemy>())
         {
             enemy.EndTailSucking();
