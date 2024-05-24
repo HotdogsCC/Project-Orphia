@@ -210,10 +210,6 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             
-            if (!footsteps.isPlaying)
-            {
-                footsteps.Play();
-            }
             //Sets character x velocity based upon input
             if (Input.GetKey(KeyCode.D))
             {
@@ -221,6 +217,18 @@ public class PlayerMovement : MonoBehaviour
                 transform.localScale = new Vector3(-1, 1, 1);
                 isFacingRight = true;
                 animator.SetBool("walking", true);
+                if (IsGrounded())
+                {
+                    if (!footsteps.isPlaying)
+                    {
+                        footsteps.Play();
+                    }           
+                }
+                else
+                {
+                    footsteps.Stop();
+                }
+
             }
             if (Input.GetKey(KeyCode.A))
             {
@@ -228,6 +236,17 @@ public class PlayerMovement : MonoBehaviour
                 transform.localScale = new Vector3(1, 1, 1);
                 isFacingRight = false;
                 animator.SetBool("walking", true);
+                if (IsGrounded())
+                {
+                    if (!footsteps.isPlaying)
+                    {
+                        footsteps.Play();
+                    }
+                }
+                else
+                {
+                    footsteps.Stop();
+                }
             }
         }
 
