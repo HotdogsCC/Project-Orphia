@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private PostProcessVolume ppv;
     private Vignette vignette;
     [SerializeField] GameObject primaryAttackHitbox;
+    [SerializeField] Transform orphiaAnimationScaling;
+    [SerializeField] Animator animator;
 
     //Variables that affect the feel of the player movement
     [Header("Movement")]
@@ -120,7 +122,10 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
-
+        animator.SetBool("attacking", false);
+        animator.SetBool("walking", false);
+        animator.SetBool("jumping", false);
+        animator.SetBool("dashing", false);
         //If you touch the floor, you can double jump again
         if (CanJump())
         {
@@ -203,6 +208,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            
             if (!footsteps.isPlaying)
             {
                 footsteps.Play();
@@ -213,12 +219,14 @@ public class PlayerMovement : MonoBehaviour
                 newXVelocity = (playerRB.velocity.x + acceleration * Time.deltaTime);
                 transform.localScale = new Vector3(-1, 1, 1);
                 isFacingRight = true;
+                animator.SetBool("walking", true);
             }
             if (Input.GetKey(KeyCode.A))
             {
                 newXVelocity = (playerRB.velocity.x - acceleration * Time.deltaTime);
                 transform.localScale = new Vector3(1, 1, 1);
                 isFacingRight = false;
+                animator.SetBool("walking", true);
             }
         }
 
@@ -236,6 +244,7 @@ public class PlayerMovement : MonoBehaviour
                 playerRB.velocity = new Vector2(playerRB.velocity.x, 0);
                 jumpVector = new Vector2(0, jumpStrength);
                 playerRB.AddForce(jumpVector);
+                animator.SetBool("jumping", true);
             }
             else if (canDoubleJump)
             {
@@ -244,6 +253,7 @@ public class PlayerMovement : MonoBehaviour
                 playerRB.velocity = new Vector2(playerRB.velocity.x, 0);
                 jumpVector = new Vector2(0, jumpStrength);
                 playerRB.AddForce(jumpVector);
+                animator.SetBool("jumping", true);
             }
         }
 
@@ -295,10 +305,12 @@ public class PlayerMovement : MonoBehaviour
         if (!isFacingRight)
         {
             playerRB.velocity = new Vector2(-dashDuration, 0);
+            animator.SetBool("dashing", true);
         }
         else
         {
             playerRB.velocity = new Vector2(dashDuration, 0);
+            animator.SetBool("dashing", true);
         }
     }
 
@@ -359,6 +371,7 @@ public class PlayerMovement : MonoBehaviour
         //On left click
         if (Input.GetMouseButton(0) && canPrimaryAttack)
         {
+            animator.SetBool("attacking", true);
             isTailingSucking = false;
             canPrimaryAttack = false;
             /*
