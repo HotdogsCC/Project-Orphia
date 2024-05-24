@@ -54,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioLowPassFilter lPass;
     [SerializeField] private AudioClip hitSFX;
     [SerializeField] private AudioClip missSFX;
+    [SerializeField] private GameObject orphiaDeath;
 
 
 
@@ -327,6 +328,7 @@ public class PlayerMovement : MonoBehaviour
             footsteps.Stop();
             gameOverScreen.SetActive(true);
             Instantiate(deathParticles, playerRB.transform.position, Quaternion.identity);
+            Instantiate(orphiaDeath, playerRB.transform.position, Quaternion.identity);
             Destroy(gameObject);
             healthBar.value = 0;
         }

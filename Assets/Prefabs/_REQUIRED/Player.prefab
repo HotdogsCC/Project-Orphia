@@ -213,6 +213,7 @@ MonoBehaviour:
   lPass: {fileID: 0}
   hitSFX: {fileID: 8300000, guid: 39d33f138e30fa24c94f7ad952d8043e, type: 3}
   missSFX: {fileID: 8300000, guid: 16756fd119968614590600aef5d8f3c4, type: 3}
+  orphiaDeath: {fileID: 4756621687708518018, guid: b85010832b144c745bfc0a9cd92c0011, type: 3}
   enemiesInPHitbox: []
   currentDestoryableWall: {fileID: 0}
   isFacingRight: 0
