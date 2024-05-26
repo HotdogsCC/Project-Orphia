@@ -20559,6 +20559,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1219833021}
     - target: {fileID: 3765544347163897079, guid: 2d4bb6151c537484683359c3fc1bd2c4, type: 3}
+      propertyPath: stunTime
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3765544347163897079, guid: 2d4bb6151c537484683359c3fc1bd2c4, type: 3}
       propertyPath: footsteps
       value: 
       objectReference: {fileID: 1536824752}

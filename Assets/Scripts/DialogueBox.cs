@@ -27,6 +27,7 @@ public class DialogueBox : MonoBehaviour
     {
         charactersInMessage = new List<char>();
         player.ResetVelocity();
+        player.ResetAnimations();
         player.GetComponent<PlayerMovement>().enabled = false;
         currentMessageCount = 0;
         messages = messageBoxMsgs;

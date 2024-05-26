@@ -123,10 +123,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
-        animator.SetBool("attacking", false);
-        animator.SetBool("walking", false);
-        animator.SetBool("jumping", false);
-        animator.SetBool("dashing", false);
+        ResetAnimations();
         //If you touch the floor, you can double jump again
         if (CanJump())
         {
@@ -538,5 +535,13 @@ public class PlayerMovement : MonoBehaviour
     public void ResetVelocity()
     {
         playerRB.velocity = new Vector2(0, 0);
+    }
+
+    public void ResetAnimations()
+    {
+        animator.SetBool("attacking", false);
+        animator.SetBool("walking", false);
+        animator.SetBool("jumping", false);
+        animator.SetBool("dashing", false);
     }
 }
