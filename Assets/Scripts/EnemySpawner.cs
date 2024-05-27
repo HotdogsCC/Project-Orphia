@@ -25,6 +25,7 @@ public class EnemySpawner : MonoBehaviour
         
     }
 
+    //spawns enemys randomly along the map
     IEnumerator WaitingAndThenSpawning()
     {
         yield return new WaitForSeconds(Random.Range(minWaitTime, maxWaitTime));

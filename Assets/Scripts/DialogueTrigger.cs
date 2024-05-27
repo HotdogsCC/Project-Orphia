@@ -14,6 +14,7 @@ public class DialogueTrigger : MonoBehaviour
         dialogueBox = FindFirstObjectByType<DialogueBox>();
     }
 
+    //sends messages to the dialogue box script
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Player")

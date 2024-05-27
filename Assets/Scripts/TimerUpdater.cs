@@ -14,6 +14,8 @@ public class TimerUpdater : MonoBehaviour
         killCount = 0;
     }
     // Update is called once per frame
+
+    // a lot of strange calculations to get time, in seconds (e.g. 21.3249), to be displayed nicely in a 00:00 format
     void Update()
     {
         int seconds = ((int)Time.timeSinceLevelLoad);

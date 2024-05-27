@@ -31,6 +31,7 @@ public class Companion : MonoBehaviour
             companionMouseFollow = !companionMouseFollow;
         }
 
+        //either follows mouse or player
         if (companionMouseFollow)
         {
             targetPosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f));

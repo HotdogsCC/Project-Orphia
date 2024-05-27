@@ -37,6 +37,7 @@ public class WaspSpit : MonoBehaviour
         TryToSpit();
     }
 
+    //Spits if it can
     private void TryToSpit()
     {
         if(canSpit && wasp.agro && GetComponentInParent<Enemy>().isStunned == false && GetComponentInParent<Enemy>().isTailSucking == false)

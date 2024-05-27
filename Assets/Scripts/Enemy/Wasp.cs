@@ -40,6 +40,7 @@ public class Wasp : MonoBehaviour
                 }
             }
 
+            //Wobbles
             if (movingRight)
             {
                 rb.velocity = new Vector2(moveSpeed, Mathf.Sin(Time.time * wobbleSpeed) * wobbleHeight);
@@ -51,6 +52,7 @@ public class Wasp : MonoBehaviour
                 sprite.flipX = true;
             }
 
+            //Stops moving if its close to player
             if(Mathf.Abs(player.transform.position.x - transform.position.x) <= 2)
             {
                 sprite.flipX = true;

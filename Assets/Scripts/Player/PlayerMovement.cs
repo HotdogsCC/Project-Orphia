@@ -104,11 +104,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Objects")]
     [SerializeField] private Slider healthBar;
     [SerializeField] private Image healthBarColour;
-    [SerializeField] private float gravity = -9.81f; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
-    [SerializeField] TextMeshProUGUI vText; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
-    [SerializeField] TextMeshProUGUI hText; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
-    [SerializeField] TextMeshProUGUI rText; //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
-    [SerializeField] TextMeshProUGUI cText;
 
     private void Start()
     {
@@ -129,7 +124,6 @@ public class PlayerMovement : MonoBehaviour
         {
             canDoubleJump = true;
         }
-        Physics2D.gravity = new Vector2(0, gravity); //USED ONLY FOR DEVELOPMENT PURPOSES, REMOVE BEFORE RELEASE
 
         //During the dash, players shouldnt be able to control the character. This ensures this.
         if (!isStunned)
@@ -160,16 +154,6 @@ public class PlayerMovement : MonoBehaviour
             }
 
             Attack();
-        }
-
-        //Temp, remove later.
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            health += -10;
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            health += -1;
         }
 
         UpdateHealthAndRage();

@@ -9,6 +9,7 @@ public class Spit : MonoBehaviour
     [SerializeField] float moveSpeed;
     float feta = 0;
 
+    //Looks at the player
     private void Start()
     {
         feta = Mathf.Atan((targetPosition.y - transform.position.y) / (targetPosition.x - transform.position.x));

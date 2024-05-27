@@ -23,6 +23,8 @@ public class DialogueBox : MonoBehaviour
     {
         animator = GetComponent<Animator>();
     }
+
+    //gets all the messages from a trigger, freezes the player, starts playing the message
     public void SetMessages(List<string> messageBoxMsgs, List<Sprite> images)
     {
         charactersInMessage = new List<char>();
@@ -44,6 +46,7 @@ public class DialogueBox : MonoBehaviour
         animator.SetBool("On", true);
     }
 
+    //runs when space bar is clicked, loads the message character by character
     private void LoadNextMessage()
     {
         currentMessageCount++;
